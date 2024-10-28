@@ -1,53 +1,47 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dvalerio <dvalerio@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/26 11:23:53 by dvalerio          #+#    #+#             */
-/*   Updated: 2024/09/26 11:27:19 by dvalerio         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-/* Standard I/O functions */
-#include <stdio.h>      // printf
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <signal.h>
+#include <string.h>
+#include <errno.h>
+#include <termios.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <curses.h>
+#include <term.h>
 
-/* Memory management functions */
-#include <stdlib.h>     // malloc, free, exit
+typedef struct s_command {
+	char *name;
+	char **args;
+	char *input_redirection;
+	char *output_redirection;
+	int is_builtin;
+} t_command;
 
-/* File descriptor and input/output functions */
-#include <unistd.h>     // write, access, open, read, close, fork, dup, dup2, pipe, isatty, ttyname, ttyslot, chdir, getcwd, execve
+// Prototypes pour parser.c
+t_command   *parse_command(char *input);
+char        **split_arguments(char *input);
+int         is_builtin_command(const char *command_name);
 
-/* File operations and directory handling */
-#include <sys/types.h>  // opendir, readdir, closedir, stat, lstat, fstat, wait, waitpid, wait3, wait4
-#include <sys/stat.h>   // stat, lstat, fstat
-#include <dirent.h>     // opendir, readdir, closedir
+// Prototypes pour builtin.c
+int         execute_builtin(t_command *cmd);
+int         execute_cd(char **args);
+int         execute_echo(char **args);
+int         execute_exit(char **args);
 
-/* Signal handling */
-#include <signal.h>     // signal, sigaction, sigemptyset, sigaddset, kill
+// Prototypes pour process.c
+int         execute_external(t_command *cmd);
+void        handle_redirections(t_command *cmd);
 
-/* Error handling */
-#include <string.h>     // strerror
-#include <errno.h>      // perror
-
-/* Terminal handling */
-#include <termios.h>    // tcsetattr, tcgetattr
-#include <sys/ioctl.h>  // ioctl
-
-/* Environment variables */
-#include <unistd.h>     // getenv
-
-/* Readline library functions */
-#include <readline/readline.h>    // readline, add_history
-#include <readline/history.h>     // rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay
-
-/* Terminal capabilities */
-#include <curses.h>     // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
-#include <term.h>       // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
-
+// Utilitaire pour libérer la structure t_command
+void        free_command(t_command *cmd);
 
 #endif
