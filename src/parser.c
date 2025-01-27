@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-t_command   *parse_command(char *input)
+t_cmd   *parse_command(char *input)
 {
-
+    
 }
 
 char        **split_arguments(char *input)

@@ -29,17 +29,22 @@
 # define ERR_OPEN_INFILE 6
 # define ERR_OPEN_OUTFILE 7
 
-typedef struct s_command {
+typedef struct s_cmd
+{
 	char *name;
 	char **args;
 	char *input_redirection;
 	char *output_redirection;
 	int is_builtin;
-} t_command;
+} t_cmd;
+
+// init la struct cmd
+t_cmd		*init_cmd(t_cmd *cmd, const char *input);
+void		free_cmd(t_cmd *cmd);
 
 // Prototypes pour parser.c
 t_command   *parse_command(char *input);
-char        **split_arguments(char *input);
+char		**ft_split(char const *s, char c)
 int         is_builtin_command(const char *command_name);
 
 // Prototypes pour builtin.c
