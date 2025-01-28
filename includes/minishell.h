@@ -43,22 +43,22 @@ t_cmd		*init_cmd(t_cmd *cmd, const char *input);
 void		free_cmd(t_cmd *cmd);
 
 // Prototypes pour parser.c
-t_command   *parse_command(char *input);
+t_cmd   *parse_command(char *input);
 char		**ft_split(char const *s, char c)
 int         is_builtin_command(const char *command_name);
 
 // Prototypes pour builtin.c
-int         execute_builtin(t_command *cmd);
+int         execute_builtin(t_cmd *cmd);
 int         execute_cd(char **args);
 int         execute_echo(char **args);
 int         execute_exit(char **args);
 
 // Prototypes pour process.c
-int         execute_external(t_command *cmd);
-void        handle_redirections(t_command *cmd);
+int         execute_external(t_cmd *cmd);
+void        handle_redirections(t_cmd *cmd);
 
-// Utilitaire pour liberer la structure t_command
-void        free_command(t_command *cmd);
+// Utilitaire pour liberer la structure t_cmd
+void        free_command(t_cmd *cmd);
 
 // Pipex
 
