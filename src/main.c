@@ -29,5 +29,6 @@ int	main(void)
 		free_command(cmd);
 		free(input);
 	}
+	clear_history();
 	return (0);
 }
