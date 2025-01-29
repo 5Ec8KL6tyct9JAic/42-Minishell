@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../Libft/includes/libft.h"
+# include "../libft/includes/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -43,15 +43,17 @@ t_cmd		*init_cmd(t_cmd *cmd, const char *input);
 void		free_cmd(t_cmd *cmd);
 
 // Prototypes pour parser.c
-t_cmd   *parse_command(char *input);
-char		**ft_split(char const *s, char c)
+t_cmd   	*parse_command(char *input);
+char		**ft_split(char const *s, char c);
 int         is_builtin_command(const char *command_name);
 
 // Prototypes pour builtin.c
-int         execute_builtin(t_cmd *cmd);
-int         execute_cd(char **args);
-int         execute_echo(char **args);
-int         execute_exit(char **args);
+char 		*read_input(void);
+void 		free_input(char *input);
+int 		builtin_cd(char **args);
+int 		builtin_echo(char **args);
+int 		builtin_pwd(void);
+int 		execute_builtin(t_cmd *cmd);
 
 // Prototypes pour process.c
 int         execute_external(t_cmd *cmd);
@@ -63,7 +65,7 @@ void        free_command(t_cmd *cmd);
 // Pipex
 
 void	exit_handler(int exit);
-void	ft_free_tab(char **tab);
+// void	ft_free_tab(char **tab);
 char	*get_env(char *name, char **env);
 char	*get_path(char *cmd, char **env);
 void	close_pipes(int *p_fd);

@@ -1,21 +1,20 @@
 #include "minishell.h"
 
-int         execute_builtin(t_command *cmd)
+char *read_input(void)
 {
-
+    char *input = readline("minishell> ");
+    if (!input)
+    {
+        printf("\nexit\n");
+        exit(EXIT_SUCCESS);
+    }
+    if (*input)
+        add_history(input);
+    return input;
 }
 
-int         execute_cd(char **args)
+void free_input(char *input)
 {
-
-}
-
-int         execute_echo(char **args)
-{
-
-}
-
-int         execute_exit(char **args)
-{
-
+    if (input)
+        free(input);
 }

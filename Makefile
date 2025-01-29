@@ -4,8 +4,8 @@ SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = includes
 
-SRC_FILES = main.c env.c error_handling.c read_input.c parser.c expansion.c \
-            builtin.c process.c pipex.c pipex_split.c pipex_utils.c signals.c
+SRC_FILES = main.c builtin.c \
+
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
