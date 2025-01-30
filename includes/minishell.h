@@ -31,7 +31,6 @@
 
 typedef struct s_cmd
 {
-	char *name;
 	char **args;
 	char *input_redirection;
 	char *output_redirection;
@@ -44,7 +43,7 @@ void		free_cmd(t_cmd *cmd);
 
 // Prototypes pour parser.c
 t_cmd   *parse_command(char *input);
-char		**ft_split(char const *s, char c)
+char		**ft_split(char const *s, char c);
 int         is_builtin_command(const char *command_name);
 
 // Prototypes pour builtin.c

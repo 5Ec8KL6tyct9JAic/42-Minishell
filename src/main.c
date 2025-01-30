@@ -1,13 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/28 17:41:29 by mmouaffa          #+#    #+#             */
+/*   Updated: 2025/01/28 18:04:19 by mmouaffa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	char		*input;
 	t_cmd		*cmd;
 
 	while (1)
 	{
-		init_cmd(cmd, input);
 		input = readline("minishell> ");
 		if (input == NULL)
 		{
@@ -21,13 +32,9 @@ int	main(void)
             free(input);
             break;
         }
-		cmd = parse_command(input);
-		if (cmd->is_builtin)
-			execute_builtin(cmd);
-		else
-			execute_external(cmd);
-		free_command(cmd);
-		free(input);
+		init_cmd(cmd, input);
+		exec_cmd(cmd, env);
+		free_cmd(cmd);
 	}
 	clear_history();
 	return (0);

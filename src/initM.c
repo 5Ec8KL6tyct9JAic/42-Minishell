@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   initM.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:26:48 by mehdi             #+#    #+#             */
-/*   Updated: 2025/01/28 14:59:09 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:06:35 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd, char *input)
 {
 	int	i;
 	
 	i = 0;
+    if (input)
+        free(input);
 	if (!cmd)
 		return ;
-	free(cmd->name);
 	if (cmd->args)
 	{
 		while (cmd->args[i])
@@ -75,8 +76,6 @@ static void cmd_split(t_cmd *cmd, const char *input)
         redir_index = handle_redirections(cmd, args, i);
         if (redir_index != -1)
             i = redir_index;
-        else if (!cmd->name)
-            cmd->name = strdup(args[i]);
         else
             cmd->args[j++] = strdup(args[i]);
     }
