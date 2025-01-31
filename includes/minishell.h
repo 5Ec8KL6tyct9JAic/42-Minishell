@@ -54,24 +54,29 @@ int 		builtin_echo(char **args);
 int 		builtin_pwd(void);
 int 		execute_builtin(t_cmd *cmd);
 
-// Prototypes pour process.c
-int         execute_external(t_cmd *cmd);
-void        handle_redirections(t_cmd *cmd);
+// Prototype env.c
+int 		unset_env_var(char ***env, const char *key);
+int 		set_env_var(char ***env, const char *key, const char *value);
+int 		update_env_var(char ***env, const char *key, char *new_var);
+int			handle_existing_var(char ***env, const char *key, char *new_var);
+char    	*get_env_var(char **env, const char *key);
+
+// Prototype de exec.c
+void		exec_cmd(t_cmd *cmd, char **env);
 
 // Utilitaire pour liberer la structure t_cmd
 void        free_command(t_cmd *cmd);
 
 // Pipex
-
-void	exit_handler(int exit);
+void		exit_handler(int exit);
 // void	ft_free_tab(char **tab);
-char	*get_env(char *name, char **env);
-char	*get_path(char *cmd, char **env);
-void	close_pipes(int *p_fd);
-int		open_file(char *file, int in_or_out);
-void	exec(char *cmd, char **env);
-void	first_pipe(char **av, int *p_fd, char **env);
-void	second_pipe(char **av, int *p_fd, char **env);
-int		main(int ac, char **av, char **env);
+char		*get_env(char *name, char **env);
+char		*get_path(char *cmd, char **env);
+void		close_pipes(int *p_fd);
+int			open_file(char *file, int in_or_out);
+void		exec(char *cmd, char **env);
+void		first_pipe(char **av, int *p_fd, char **env);
+void		second_pipe(char **av, int *p_fd, char **env);
+int			main(int ac, char **av, char **env);
 
 #endif
