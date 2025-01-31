@@ -45,6 +45,9 @@ t_cmd   	*parse_command(char *input);
 char		**ft_split(char const *s, char c);
 int         is_builtin_command(const char *command_name);
 
+// Prototype error_handling.c
+void		handle_error(const char *context, const char *target, int error_code);
+
 // Prototypes pour builtin.c
 char 		*read_input(void);
 void 		free_input(char *input);
@@ -62,6 +65,7 @@ char    	*get_env_var(char **env, const char *key);
 
 // Prototype de exec.c
 void		exec_cmd(t_cmd *cmd, char **env);
+void    	execute_builtin(t_cmd *cmd);
 
 // Utilitaire pour liberer la structure t_cmd
 void        free_command(t_cmd *cmd);

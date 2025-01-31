@@ -6,13 +6,13 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:46:43 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/01/31 12:47:28 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:50:39 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-const char *get_error_message(int error_code)
+static const char   *get_error_message(int error_code)
 {
     static const char *error_messages[] =
     {
@@ -29,7 +29,7 @@ const char *get_error_message(int error_code)
     return ("Unknown error";)
 }
 
-void handle_error(const char *context, const char *target, int error_code)
+void    handle_error(const char *context, const char *target, int error_code)
 {
     const char *error_msg;
 
