@@ -21,13 +21,12 @@
 # include <curses.h>
 # include <term.h>
 
-# define ERR_USAGE 1
-# define ERR_PIPE 2
-# define ERR_FORK 3
-# define ERR_CMD_NOT_FOUND 130
-# define ERR_CMD_EXEC 5
-# define ERR_OPEN_INFILE 6
-# define ERR_OPEN_OUTFILE 7
+# define ERR_CMD_NOT_FOUND        0
+# define ERR_PERMISSION_DENIED    1
+# define ERR_NO_SUCH_FILE         2
+# define ERR_EXEC_FAILED          3
+# define ERR_NUMERIC_ARG_REQUIRED 4
+# define ERR_INVALID_VAR          5
 
 typedef struct s_cmd
 {
