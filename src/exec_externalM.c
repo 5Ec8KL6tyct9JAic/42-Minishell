@@ -6,13 +6,13 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:45:41 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/01/31 14:27:15 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:12:23 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	`exec_external_cmd(t_cmd *cmd, char **env)
+static void	exec_external_cmd(t_cmd *cmd, char **env)
 {
     char *path_to_cmd;
 

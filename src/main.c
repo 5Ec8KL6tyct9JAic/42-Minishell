@@ -1,58 +1,38 @@
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+static void	handle_signal(int sig)
 {
-	char		*input;
-	t_cmd		*cmd;
-int main(int ac, char **av, char **env)
-{
-    (void)ac;
-    (void)av;
-    (void)env;
-    char *input;
-    // t_cmd *cmd;
+	(void)sig;
+	write(1, "\n$Minishell> ", 4);
+}
 
-	while (1)
+static void	init_shell(void)
+{
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
+	rl_outstream = stderr;
+}
+
+int	main(void)
+{
+	char	*input;
+	t_cmd	cmd;
+
+	init_shell();
+	while ((input = readline("$Minishell> ")))
 	{
-		input = readline("minishell> ");
-		if (input == NULL)
-		{
-			printf("exit\n");
-			break ;
-		}
 		if (*input)
-            add_history(input);
-        if (strcmp(input, "exit") == 0)
 		{
-    while (1)
-    {
-        input = read_input();
-        if (!input)
-            continue;
-        /*cmd = parse_command(input);
-        if (!cmd)
-        {
-            fprintf(stderr, "Erreur : commande invalide\n");
-            free(input);
-            continue;
-        }
-		init_cmd(cmd, input);
-		exec_cmd(cmd, env);
-		free_cmd(cmd);
+			add_history(input);
+			init_cmd(&cmd, input);
+			if (!args[0])
+				continue ;
+			cmd.is_builtin = is_builtin(args[0]);
+			exec_cmd(&cmd, environ);
+			ft_free_tab(args);
+		}
+		free(input);
 	}
-	clear_history();
+	ft_putstr_fd("exit\n", 1);
 	return (0);
-        if (cmd->is_builtin)
-        {
-            if (execute_builtin(cmd) != 0)
-                fprintf(stderr, "Erreur lors de l'exécution de la commande built-in: %s\n", cmd->args[0]);
-        }
-        else
-            execute_external(cmd);
-
-        free_command(cmd);*/
-        free(input);
-    }
-    clear_history();
-    return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:26:48 by mehdi             #+#    #+#             */
-/*   Updated: 2025/01/28 18:06:35 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:00:02 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,24 @@ void	free_cmd(t_cmd *cmd, char *input)
 
 static int handle_redirections(t_cmd *cmd, char **args, int i)
 {
-    if (strcmp(args[i], "<") == 0 && args[i + 1])
+    if (ft_strcmp(args[i], "<") == 0 && args[i + 1])
     {
-        cmd->input_redirection = strdup(args[++i]);
+        cmd->input_redirection = ft_strdup(args[++i]);
         return i;
     }
-    else if (strcmp(args[i], "<<") == 0 && args[i + 1])
+    else if (ft_strcmp(args[i], "<<") == 0 && args[i + 1])
     {
-        cmd->input_redirection = strdup(args[++i]);
+        cmd->input_redirection = ft_strdup(args[++i]);
         return i;
     }
-    else if (strcmp(args[i], ">") == 0 && args[i + 1])
+    else if (ft_strcmp(args[i], ">") == 0 && args[i + 1])
     {
-        cmd->output_redirection = strdup(args[++i]);
+        cmd->output_redirection = ft_strdup(args[++i]);
         return i;
     }
-    else if (strcmp(args[i], ">>") == 0 && args[i + 1])
+    else if (ft_strcmp(args[i], ">>") == 0 && args[i + 1])
     {
-        cmd->output_redirection = strdup(args[++i]);
+        cmd->output_redirection = ft_strdup(args[++i]);
         return i;
     }
     return -1;
@@ -77,7 +77,7 @@ static void cmd_split(t_cmd *cmd, const char *input)
         if (redir_index != -1)
             i = redir_index;
         else
-            cmd->args[j++] = strdup(args[i]);
+            cmd->args[j++] = ft_strdup(args[i]);
     }
     cmd->args[j] = NULL;
     i = -1;
@@ -88,19 +88,19 @@ static void cmd_split(t_cmd *cmd, const char *input)
 
 static int is_bultin(char *cmd)
 {
-    if (strcmp(cmd, "cd") == 0)
+    if (ft_strcmp(cmd, "cd") == 0)
         return (0);
-    else if (strcmp(cmd, "echo") == 0)
+    else if (ft_strcmp(cmd, "echo") == 0)
         return (0);
-    else if (strcmp(cmd, "pwd") == 0)
+    else if (ft_strcmp(cmd, "pwd") == 0)
         return (0);
-    else if (strcmp(cmd, "export") == 0)
+    else if (ft_strcmp(cmd, "export") == 0)
         return (0);
-    else if (strcmp(cmd, "unset") == 0)
+    else if (ft_strcmp(cmd, "unset") == 0)
         return (0);
-    else if (strcmp(cmd, "env") == 0)
+    else if (ft_strcmp(cmd, "env") == 0)
         return (0);
-    else if (strcmp(cmd, "exit") == 0)
+    else if (ft_strcmp(cmd, "exit") == 0)
         return (0);
     else
         return (1);
