@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
+/*   Updated: 2025/02/04 10:28:12 by mmouaffa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -30,45 +42,46 @@
 
 typedef struct s_cmd
 {
-	char **args;
-	char *input_redirection;
-	char *output_redirection;
-	int is_builtin;
-} t_cmd;
+	char	**args;
+	char	*input_redirection;
+	char	*output_redirection;
+	int		is_builtin;
+}			t_cmd;
 
 // init la struct cmd
 t_cmd		*init_cmd(t_cmd *cmd, const char *input);
 void		free_cmd(t_cmd *cmd);
 
 // Prototypes pour parser.c
-t_cmd   	*parse_command(char *input);
+t_cmd		*parse_command(char *input);
 char		**ft_split(char const *s, char c);
-int         is_builtin_command(const char *command_name);
+int			is_builtin_command(const char *command_name);
 
 // Prototype error_handling.c
-void		handle_error(const char *context, const char *target, int error_code);
+void		handle_error(const char *context,
+				const char *target, int error_code);
 
 // Prototypes pour builtin.c
-char 		*read_input(void);
-void 		free_input(char *input);
-int 		builtin_cd(char **args);
-int 		builtin_echo(char **args);
-int 		builtin_pwd(void);
-int 		execute_builtin(t_cmd *cmd);
+char		*read_input(void);
+void		free_input(char *input);
+int			builtin_cd(char **args);
+int			builtin_echo(char **args);
+int			builtin_pwd(void);
+int			execute_builtin(t_cmd *cmd);
 
 // Prototype env.c
-int 		unset_env_var(char ***env, const char *key);
-int 		set_env_var(char ***env, const char *key, const char *value);
-int 		update_env_var(char ***env, const char *key, char *new_var);
+int			unset_env_var(char ***env, const char *key);
+int			set_env_var(char ***env, const char *key, const char *value);
+int			update_env_var(char ***env, const char *key, char *new_var);
 int			handle_existing_var(char ***env, const char *key, char *new_var);
-char    	*get_env_var(char **env, const char *key);
+char		*get_env_var(char **env, const char *key);
 
 // Prototype de exec.c
 void		exec_cmd(t_cmd *cmd, char **env);
-void    	execute_builtin(t_cmd *cmd);
+void		execute_builtin(t_cmd *cmd);
 
 // Utilitaire pour liberer la structure t_cmd
-void        free_command(t_cmd *cmd);
+void		free_command(t_cmd *cmd);
 
 // Pipex
 void		exit_handler(int exit);
