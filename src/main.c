@@ -17,12 +17,14 @@ void	free_cmds(char ***cmds)
 	free(cmds);
 }
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	char	*input;
 	char	**args;
 	char	***cmds;
 
+	(void)ac;
+	(void)av;
 	setup_interactive_signals();
 	while (1)
 	{
@@ -30,7 +32,7 @@ int	main(void)
 		if (!input)
 			return (write(1, "exit\n", 5), 0);
 		add_history(input);
-		args = ft_split(input, ' ');
+		args = init_cmd(input);
 		free(input);
 		if (args && args[0])
 		{

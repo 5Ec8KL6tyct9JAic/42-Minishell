@@ -16,7 +16,7 @@ static int	handle_redirection(char **args, int i, int *in_fd, int *out_fd)
 	int	fd;
 
 	if (!args[i + 1])
-		return (write(2, "syntax error: missing file\n", 27), -1);
+		return (-1);
 	fd = open_file(args[i + 1], args[i]);
 	if (fd == -1)
 		return (perror(args[i + 1]), -1);

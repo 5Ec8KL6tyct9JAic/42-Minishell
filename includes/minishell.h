@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/06 16:04:29 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:52:11 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void		free_input(char *input);
 int			builtin_cd(char **args);
 int			builtin_echo(char **args);
 int			builtin_pwd(void);
-int			execute_builtin(t_cmd *cmd);
 
 // Prototype env.c
 int			unset_env_var(char ***env, const char *key);
@@ -150,12 +149,12 @@ void        free_split_args(char **args);
 void        init_cmd_args(t_cmd *cmd, const char *input);
 
 // Nouveaux prototypes pour heredoc
-int         handle_heredoc(t_heredoc *hdoc, t_env *env);
+int         handle_heredoc(t_heredoc *hdoc, char **env);
 void        heredoc_signal_handler(int sig);
-int         execute_heredoc(t_cmd *cmd, char *delimiter, t_env *env);
+int         execute_heredoc(t_cmd *cmd, char *delimiter, char **env);
 int         is_delimiter_quoted(char *delimiter, int *quote_type);
 char        *clean_delimiter(char *delimiter);
-char        *expand_heredoc_line(char *line, t_env *env, int quote_type);
+char        *expand_heredoc_line(char *line, char **env, int quote_type);
 
 // Variables globales
 extern int  g_exit_status;

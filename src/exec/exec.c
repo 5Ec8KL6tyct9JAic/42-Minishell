@@ -21,7 +21,7 @@ int	execute_command(char **args)
 	int input_fd = -1;
 	int output_fd = -1;
 	if (parse_redirections(args, &input_fd, &output_fd) == -1)
-    	return (1);
+		return (1);
 	if (!args[0])
 		return (0);
 	printf("Commande exécutée : ");

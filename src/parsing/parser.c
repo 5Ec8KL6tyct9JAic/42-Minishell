@@ -44,3 +44,42 @@ char	***split_piped_commands(char **args)
 	cmds[j] = NULL;
 	return (cmds);
 }
+
+char **parse_input(char *input)
+{
+    char **tokens;
+    char **result;
+    int i;
+    int j;
+
+    if (!input)
+        return (NULL);
+    tokens = advanced_split(input);
+    if (!tokens)
+        return NULL;
+    result = parse_tokens(tokens);
+    ft_free_tab(tokens);
+    return (result);
+}
+
+static char **parse_tokens(char **tokens)
+{
+    char **result;
+    int i;
+    int j;
+
+    i = 0;
+    while (tokens[i])
+        i++;
+    result = malloc(sizeof(char *) * (i + 1));
+    if (!result)
+        return (NULL);
+    i = 0;
+    j = 0;
+    while (tokens[i])
+    {
+        result[j++] = ft_strdup(tokens[i++]);
+    }
+    result[j] = NULL;
+    return (result);
+}
