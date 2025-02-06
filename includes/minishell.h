@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/06 05:01:51 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:04:29 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,25 @@ typedef struct s_cmd
 	char	**args;
 	char	*input_redirection;
 	char	*output_redirection;
+	char	*path;
 	int		is_builtin;
+	int		input_fd;
+	int		output_fd;
 }			t_cmd;
 
+typedef struct s_heredoc
+{
+	char	*delimiter;
+	char	*content;
+	int		pipe_fd[2];
+}			t_heredoc;
+
 // init la struct cmd
-t_cmd		*init_cmd(t_cmd *cmd, const char *input);
-void		free_cmd(t_cmd *cmd);
+void	init_shell(void);
+void	init_cmd(t_cmd *cmd, char *input);
+void	free_cmd(t_cmd *cmd);
+char	*get_cmd_path(char *cmd);
+void	ft_free_tab(char **tab);
 
 // Prototypes pour parser.c
 t_cmd		*parse_command(char *input);
@@ -118,5 +131,33 @@ int	ft_strcmp(const char *s1, const char *s2);
 // redirections
 void	execute_with_redirections(char **args, int prev_fd, int has_next);
 int	parse_redirections(char **args, int *input_fd, int *output_fd);
+
+// Nouveaux prototypes pour init_helper.c
+int         handle_redirections(t_cmd *cmd, char **args, int i);
+void        cmd_split(t_cmd *cmd, const char *input);
+int         is_builtin(char *cmd);
+char        *split_redirection(char *str, int *i);
+int         handle_quotes_count(const char *input, int *i, int *in_quotes, 
+                char *quote_char);
+
+// Nouveaux prototypes pour initM.c
+int         handle_redirections_count(const char *input, int *i);
+int         count_tokens(const char *input);
+void        handle_quotes_split(const char *input, int *i, char **result, int *j);
+void        handle_word_split(const char *input, int *i, char **result, int *j);
+char        **advanced_split(const char *input);
+void        free_split_args(char **args);
+void        init_cmd_args(t_cmd *cmd, const char *input);
+
+// Nouveaux prototypes pour heredoc
+int         handle_heredoc(t_heredoc *hdoc, t_env *env);
+void        heredoc_signal_handler(int sig);
+int         execute_heredoc(t_cmd *cmd, char *delimiter, t_env *env);
+int         is_delimiter_quoted(char *delimiter, int *quote_type);
+char        *clean_delimiter(char *delimiter);
+char        *expand_heredoc_line(char *line, t_env *env, int quote_type);
+
+// Variables globales
+extern int  g_exit_status;
 
 #endif

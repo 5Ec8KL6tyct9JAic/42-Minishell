@@ -1,40 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initM.c                                            :+:      :+:    :+:   */
+/*   init_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 15:26:48 by mehdi             #+#    #+#             */
-/*   Updated: 2025/02/03 14:00:02 by mmouaffa         ###   ########.fr       */
+/*   Created: 2025/02/05 16:00:47 by mmouaffa          #+#    #+#             */
+/*   Updated: 2025/02/05 16:00:55 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_cmd(t_cmd *cmd, char *input)
-{
-	int	i;
-	
-	i = 0;
-    if (input)
-        free(input);
-	if (!cmd)
-		return ;
-	if (cmd->args)
-	{
-		while (cmd->args[i])
-		{
-    		free(cmd->args[i]);
-    		i++;
-		}
-	}
-	free(cmd->input_redirection);
-	free(cmd->output_redirection);
-	free(cmd);
-}
-
-static int handle_redirections(t_cmd *cmd, char **args, int i)
+int handle_redirections(t_cmd *cmd, char **args, int i)
 {
     if (ft_strcmp(args[i], "<") == 0 && args[i + 1])
     {
@@ -59,7 +37,7 @@ static int handle_redirections(t_cmd *cmd, char **args, int i)
     return -1;
 }
 
-static void cmd_split(t_cmd *cmd, const char *input)
+void cmd_split(t_cmd *cmd, const char *input)
 {
     char	**args;
     int		i;
@@ -86,7 +64,7 @@ static void cmd_split(t_cmd *cmd, const char *input)
     free(args);
 }
 
-static int is_bultin(char *cmd)
+int is_bultin(char *cmd)
 {
     if (ft_strcmp(cmd, "cd") == 0)
         return (0);
@@ -106,22 +84,37 @@ static int is_bultin(char *cmd)
         return (1);
 }
 
-t_cmd *init_cmd(t_cmd *cmd, const char *input)
+char *split_redirection(char *str, int *i)
 {
-    cmd = malloc(sizeof(t_cmd));
-    if (!cmd)
+    char *result;
+    int len;
+
+    len = 0;
+    if (str[*i] == '<' || str[*i] == '>')
     {
-        perror("Erreur d'allocation mémoire");
-        exit(EXIT_FAILURE);
+        len++;
+        if (str[*i + 1] == str[*i])
+            len++;
+        result = ft_substr(str, *i, len);
+        *i += len - 1;
+        return result;
     }
-	cmd->name = NULL;
-    cmd->args = malloc(sizeof(char *) * 100);
-	if (!cmd->args)
+    return NULL;
+}
+
+int handle_quotes_count(const char *input, int *i, int *in_quotes, char *quote_char)
+{
+    if ((input[*i] == '"' || input[*i] == '\'') && (!*in_quotes || *quote_char == input[*i]))
     {
-        perror("Erreur d'allocation mémoire pour les arguments");
-        exit(EXIT_FAILURE);
+        if (*in_quotes)
+            *in_quotes = 0;
+        else
+        {
+            *in_quotes = 1;
+            *quote_char = input[*i];
+        }
+        (*i)++;
+        return 1;
     }
-    cmd_split(cmd, input);
-    cmd->is_builtin = is_bultin(cmd->name);
-    return (cmd);
+    return 0;
 }

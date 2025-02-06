@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:52:16 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/01/31 15:21:38 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:36:50 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,17 @@ void parse_command(const char *input, char ***args)
             handle_flags_and_args(&input, *args, &i, &in_arg);
     }
     (*args)[i] = NULL;
+}
+
+int parse_redirections(t_command *cmd, char **tokens, int *i, t_env *env)
+{
+    if (ft_strcmp(tokens[*i], "<<") == 0)
+    {
+        (*i)++;
+        if (!tokens[*i])
+            return (error_syntax());
+        if (handle_heredoc(cmd, env))
+            return (1);
+    }
+    return (0);
 }

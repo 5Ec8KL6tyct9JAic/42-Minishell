@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvalerio <dvalerio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 17:37:18 by dvalerio          #+#    #+#             */
-/*   Updated: 2023/12/26 17:54:45 by dvalerio         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:53:37 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,33 +66,35 @@ char	*get_env(char *name, char **env)
 	return (NULL);
 }
 
-char	*get_path(char *cmd, char **env)
+char	*get_cmd_path(char *cmd)
 {
 	char	**paths;
-	char	*path_cmd;
-	char	*full_cmd;
+	char	*path;
+	char	*part_path;
 	int		i;
 
-	i = 0;
-	paths = ft_split(get_env("PATH", env), ':');
-	if (!cmd || !(paths))
+	if (ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
+	paths = ft_split(getenv("PATH"), ':');
+	if (!paths)
 		return (NULL);
+	i = 0;
 	while (paths[i])
 	{
-		path_cmd = ft_strjoin(paths[i], "/");
-		full_cmd = ft_strjoin(path_cmd, cmd);
-		free(path_cmd);
-		if (access(full_cmd, X_OK) == 0)
+		part_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(part_path, cmd);
+		free(part_path);
+		if (access(path, F_OK | X_OK) == 0)
 		{
 			ft_free_tab(paths);
-			return (full_cmd);
+			return (path);
 		}
-		free(full_cmd);
+		free(path);
 		i++;
 	}
 	ft_free_tab(paths);
 	return (NULL);
-}
+} 
 
 void	close_pipes(int *p_fd)
 {
