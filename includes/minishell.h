@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/04 10:28:12 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/06 05:01:51 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,29 @@ void		exec(char *cmd, char **env);
 void		first_pipe(char **av, int *p_fd, char **env);
 void		second_pipe(char **av, int *p_fd, char **env);
 int			main(int ac, char **av, char **env);
+
+// signals.c
+void	setup_interactive_signals(void);
+void	setup_execution_signals(void);
+void	restore_default_signals(void);
+
+// execution.c
+int		execute_command(char **args);
+void	wait_for_child(pid_t pid);
+
+// exec pipe
+void	execute_pipe_commands(char ***cmds);
+
+// parser
+int	count_pipes(char **args);
+char	***split_piped_commands(char **args);
+
+// utils
+void	free_args(char **args);
+int	ft_strcmp(const char *s1, const char *s2);
+
+// redirections
+void	execute_with_redirections(char **args, int prev_fd, int has_next);
+int	parse_redirections(char **args, int *input_fd, int *output_fd);
 
 #endif
