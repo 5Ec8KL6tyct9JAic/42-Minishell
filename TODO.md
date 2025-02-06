@@ -9,7 +9,7 @@
   - [x] `<` (entrée)
   - [x] `>` (sortie)
   - [x] `>>` (sortie en mode append)
-  - [ ] `<<` (heredoc)
+  - [x] `<<` (heredoc)
 - [x] Implémenter les pipes `|`
 - [x] Gérer les variables d'environnement (`$VAR`)
 - [ ] Gérer `$?` (code de retour)
