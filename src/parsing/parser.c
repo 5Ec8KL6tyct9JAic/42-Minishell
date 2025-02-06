@@ -1,5 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
+/*   Updated: 2025/02/06 17:21:33 by mmouaffa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+** Compte le nombre de pipes dans la commande
+** @param args: tableau d'arguments à analyser
+** @return: nombre de pipes trouvés
+*/
 int	count_pipes(char **args)
 {
 	int	i;
@@ -16,6 +33,11 @@ int	count_pipes(char **args)
 	return (count);
 }
 
+/*
+** Divise la commande en sous-commandes séparées par des pipes
+** @param args: tableau d'arguments à diviser
+** @return: tableau de tableaux contenant les sous-commandes
+*/
 char	***split_piped_commands(char **args)
 {
 	int		i;
@@ -45,6 +67,11 @@ char	***split_piped_commands(char **args)
 	return (cmds);
 }
 
+/*
+** Parse l'entrée utilisateur en tokens
+** @param input: chaîne d'entrée à parser
+** @return: tableau de tokens ou NULL en cas d'erreur
+*/
 char **parse_input(char *input)
 {
     char **tokens;
@@ -56,12 +83,17 @@ char **parse_input(char *input)
         return (NULL);
     tokens = advanced_split(input);
     if (!tokens)
-        return NULL;
+        return (NULL);
     result = parse_tokens(tokens);
     ft_free_tab(tokens);
     return (result);
 }
 
+/*
+** Convertit les tokens bruts en tokens finaux
+** @param tokens: tableau de tokens bruts
+** @return: tableau de tokens traités ou NULL en cas d'erreur
+*/
 static char **parse_tokens(char **tokens)
 {
     char **result;

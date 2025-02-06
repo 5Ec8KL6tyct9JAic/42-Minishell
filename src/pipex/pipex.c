@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvalerio <dvalerio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 17:37:58 by dvalerio          #+#    #+#             */
-/*   Updated: 2023/12/26 17:54:33 by dvalerio         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:24:42 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** Ouvre un fichier avec les permissions appropriées
+** @param file: nom du fichier à ouvrir
+** @param in_or_out: 0 pour lecture, 1 pour écriture
+** @return: descripteur de fichier ou -1 en cas d'erreur
+*/
 int	open_file(char *file, int in_or_out)
 {
 	int	ret;
@@ -28,6 +34,11 @@ int	open_file(char *file, int in_or_out)
 	return (ret);
 }
 
+/*
+** Exécute une commande avec son chemin complet
+** @param cmd: commande à exécuter
+** @param env: environnement
+*/
 void	exec_cmd(char *cmd, char **env)
 {
 	char	**cmd_args;
@@ -38,15 +49,19 @@ void	exec_cmd(char *cmd, char **env)
 	if (!(*cmd_args) || !(cmd_args))
 		exit_handler(ERR_CMD_NOT_FOUND);
 	if (path_to_cmd == NULL)
-	{
 		exit_handler(ERR_CMD_NOT_FOUND);
-	}	
 	if (execve(path_to_cmd, cmd_args, env) == -1)
 		exit_handler(ERR_CMD_EXEC);
 	free(path_to_cmd);
 	ft_free_tab((cmd_args));
 }
 
+/*
+** Gère le premier processus du pipe
+** @param av: arguments du programme
+** @param p_fd: descripteurs de fichier du pipe
+** @param env: environnement
+*/
 void	first_pipe(char **av, int *p_fd, char **env)
 {
 	int	fd_in;
@@ -62,6 +77,12 @@ void	first_pipe(char **av, int *p_fd, char **env)
 	exec_cmd(av[2], env);
 }
 
+/*
+** Gère le second processus du pipe
+** @param av: arguments du programme
+** @param p_fd: descripteurs de fichier du pipe
+** @param env: environnement
+*/
 void	second_pipe(char **av, int *p_fd, char **env)
 {
 	int	fd_out;
@@ -76,6 +97,10 @@ void	second_pipe(char **av, int *p_fd, char **env)
 	close(fd_out);
 }
 
+/*
+** Point d'entrée principal du programme pipex
+** Gère l'exécution de deux commandes reliées par un pipe
+*/
 int	main(int ac, char **av, char **env)
 {
 	int		p_fd[2];

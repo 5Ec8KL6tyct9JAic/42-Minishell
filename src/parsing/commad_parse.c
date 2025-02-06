@@ -6,17 +6,28 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:52:16 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/05 15:36:50 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:21:31 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+** Vérifie si un caractère est un guillemet
+** @param c: caractère à vérifier
+** @return: 1 si c'est un guillemet, 0 sinon
+*/
 static int is_quote(char c)
 {
     return (c == '\'' || c == '\"');
 }
 
+/*
+** Gère le parsing des arguments entre guillemets
+** @param input: pointeur vers la chaîne d'entrée
+** @param args: tableau de résultats
+** @param i: index dans le tableau de résultats
+*/
 static void handle_quotes(const char **input, char **args, int *i)
 {
     char quote;
@@ -33,6 +44,13 @@ static void handle_quotes(const char **input, char **args, int *i)
         (*input)++;
 }
 
+/*
+** Gère le parsing des flags et arguments normaux
+** @param input: pointeur vers la chaîne d'entrée
+** @param args: tableau de résultats
+** @param i: index dans le tableau de résultats
+** @param in_arg: flag indiquant si on est dans un argument
+*/
 static void handle_flags_and_args(const char **input, char **args, int *i, int *in_arg)
 {
     if (*input[0] == '-' && !*in_arg)
@@ -56,6 +74,11 @@ static void handle_flags_and_args(const char **input, char **args, int *i, int *
     }
 }
 
+/*
+** Parse une commande complète en arguments
+** @param input: chaîne d'entrée à parser
+** @param args: pointeur vers le tableau de résultats
+*/
 void parse_command(const char *input, char ***args)
 {
     int i;

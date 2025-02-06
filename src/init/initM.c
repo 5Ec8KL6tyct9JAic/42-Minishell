@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:58:59 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/06 17:15:20 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:18:04 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,25 @@ int count_tokens(const char *input)
     {
         // Gère les guillemets
         if (handle_quotes_count(input, &i, &in_quotes, &quote_char))
-            continue;
+            continue ;
         // Si on est dans des guillemets, continue jusqu'à la fin
         if (in_quotes)
         {
             i++;
-            continue;
+            continue ;
         }
         // Gère les redirections
         if (handle_redirections_count(input, &i))
         {
             count++;
-            continue;
+            continue ;
         }
         // Ignore les espaces
         if (ft_isspace(input[i]))
         {
             while (input[i] && ft_isspace(input[i]))
                 i++;
-            continue;
+            continue ;
         }
         // Compte un nouveau token
         count++;

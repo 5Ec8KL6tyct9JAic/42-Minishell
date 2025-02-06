@@ -6,29 +6,34 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:58:54 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/05 14:25:59 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:22:03 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+** Exécute une commande builtin
+** @param cmd: structure de commande à exécuter
+** @param envp: environnement
+*/
 void execute_builtin(t_cmd *cmd, char **envp)
 {
 	if (!cmd->args[0])
 		return;
-	if (strcmp(cmd->args[0], "cd") == 0)
+	if (ft_strcmp(cmd->args[0], "cd") == 0)
 		execute_cd(cmd);
-	else if (strcmp(cmd->args[0], "exit") == 0)
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		execute_exit(cmd);
-	else if (strcmp(cmd->args[0], "echo") == 0)
+	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		execute_echo(cmd);
-	else if (strcmp(cmd->args[0], "pwd") == 0)
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		execute_pwd();
-	else if (strcmp(cmd->args[0], "env") == 0)
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		execute_env(envp);
-	else if (strcmp(cmd->args[0], "export") == 0)
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		execute_export(cmd);
-	else if (strcmp(cmd->args[0], "unset") == 0)
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		execute_unset(cmd);
 	else
 	{
@@ -37,6 +42,10 @@ void execute_builtin(t_cmd *cmd, char **envp)
 	}
 }
 
+/*
+** Change le répertoire courant
+** @param cmd: structure de commande contenant le chemin
+*/
 void execute_cd(t_cmd *cmd)
 {
 	char *target;
@@ -44,7 +53,7 @@ void execute_cd(t_cmd *cmd)
 	target = cmd->args[1];
 	if (!target)
 		target = getenv("HOME");
-	else if (strcmp(target, "-") == 0)
+	else if (ft_strcmp(target, "-") == 0)
 		target = getenv("OLDPWD");
 
 	if (!target)
@@ -58,6 +67,10 @@ void execute_cd(t_cmd *cmd)
 		setenv("OLDPWD", getenv("PWD"), 1);
 }
 
+/*
+** Quitte le shell avec le code de sortie spécifié
+** @param cmd: structure de commande contenant le code de sortie
+*/
 void execute_exit(t_cmd *cmd)
 {
 	int exit_code;
@@ -69,13 +82,13 @@ void execute_exit(t_cmd *cmd)
 	{
 		while (cmd->args[1][i])
 		{
-			if (!isdigit(cmd->args[1][i++]))
+			if (!ft_isdigit(cmd->args[1][i++]))
 			{
 				fprintf(stderr, "exit: argument numérique requis\n");
 				return;
 			}
 		}
-		exit_code = atoi(cmd->args[1]) % 256;
+		exit_code = ft_atoi(cmd->args[1]) % 256;
 	}
 	exit(exit_code);
 }
@@ -87,7 +100,7 @@ void execute_echo(t_cmd *cmd)
 
 	i = 1;
 	newline = 1;
-	while (cmd->args[i] && strcmp(cmd->args[i], "-n") == 0)
+	while (cmd->args[i] && ft_strcmp(cmd->args[i], "-n") == 0)
 	{
 		newline = 0;
 		i++;

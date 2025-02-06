@@ -6,12 +6,16 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 17:37:18 by dvalerio          #+#    #+#             */
-/*   Updated: 2025/02/05 14:53:37 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:25:13 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** Gère les erreurs et quitte le programme avec le code approprié
+** @param n_exit: code d'erreur
+*/
 void	exit_handler(int n_exit)
 {
 	if (n_exit == ERR_USAGE)
@@ -32,8 +36,11 @@ void	exit_handler(int n_exit)
 		ft_putstr_fd("Error: an unknown error occurred.\n", STDERR_FILENO);
 	exit(n_exit);
 }
-	// Vous pouvez ajouter plus de conditions d'erreur avec exit_handler.
 
+/*
+** Libère la mémoire d'un tableau de chaînes
+** @param tab: tableau à libérer
+*/
 void	ft_free_tab(char **tab)
 {
 	size_t	i;
@@ -47,6 +54,12 @@ void	ft_free_tab(char **tab)
 	free(tab);
 }
 
+/*
+** Récupère la valeur d'une variable d'environnement
+** @param name: nom de la variable à chercher
+** @param env: tableau d'environnement
+** @return: valeur de la variable ou NULL si non trouvée
+*/
 char	*get_env(char *name, char **env)
 {
 	int	i;
@@ -66,6 +79,14 @@ char	*get_env(char *name, char **env)
 	return (NULL);
 }
 
+/*
+** Trouve le chemin complet d'une commande
+** @param cmd: nom de la commande
+** @return: chemin complet de la commande ou NULL si non trouvée
+** 
+** Cherche dans les dossiers du PATH si la commande n'a pas de '/'
+** Sinon, considère que c'est déjà un chemin complet
+*/
 char	*get_cmd_path(char *cmd)
 {
 	char	**paths;
@@ -94,8 +115,12 @@ char	*get_cmd_path(char *cmd)
 	}
 	ft_free_tab(paths);
 	return (NULL);
-} 
+}
 
+/*
+** Ferme les deux extrémités d'un pipe
+** @param p_fd: tableau contenant les descripteurs de fichier du pipe
+*/
 void	close_pipes(int *p_fd)
 {
 	close(p_fd[0]);

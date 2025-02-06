@@ -6,12 +6,18 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:36:18 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/05 15:37:28 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:23:25 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+** Vérifie si le délimiteur est entre guillemets
+** @param delimiter: délimiteur à vérifier
+** @param quote_type: type de guillemet trouvé
+** @return: 1 si le délimiteur est entre guillemets, 0 sinon
+*/
 int is_delimiter_quoted(char *delimiter, int *quote_type)
 {
 	if (delimiter[0] == '\'')
@@ -28,6 +34,11 @@ int is_delimiter_quoted(char *delimiter, int *quote_type)
 	return (0);
 }
 
+/*
+** Nettoie le délimiteur en retirant les guillemets
+** @param delimiter: délimiteur à nettoyer
+** @return: délimiteur nettoyé ou NULL en cas d'erreur
+*/
 char *clean_delimiter(char *delimiter)
 {
 	int len;
@@ -57,6 +68,12 @@ char *expand_heredoc_line(char *line, t_env *env, int quote_type)
 	return (expanded);
 }
 
+/*
+** Gère le heredoc
+** @param hdoc: structure heredoc
+** @param env: environnement
+** @return: 0 en cas de succès, 1 en cas d'erreur
+*/
 int handle_heredoc(t_heredoc *hdoc, t_env *env)
 {
 	char    *line;
@@ -78,12 +95,12 @@ int handle_heredoc(t_heredoc *hdoc, t_env *env)
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: here-document delimited by end-of-file\n", 2);
-			break;
+			break ;
 		}
 		if (ft_strcmp(line, clean_delim) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		expanded_line = expand_heredoc_line(line, env, quote_type);
 		write(hdoc->pipe_fd[1], expanded_line, ft_strlen(expanded_line));
@@ -96,6 +113,10 @@ int handle_heredoc(t_heredoc *hdoc, t_env *env)
 	return (ret);
 }
 
+/*
+** Gestionnaire de signal pour le heredoc
+** @param sig: numéro du signal reçu
+*/
 void heredoc_signal_handler(int sig)
 {
 	if (sig == SIGINT)
@@ -105,6 +126,13 @@ void heredoc_signal_handler(int sig)
 	}
 }
 
+/*
+** Exécute le heredoc
+** @param cmd: structure de commande
+** @param delimiter: délimiteur du heredoc
+** @param env: environnement
+** @return: 0 en cas de succès, 1 en cas d'erreur
+*/
 int execute_heredoc(t_command *cmd, char *delimiter, t_env *env)
 {
 	t_heredoc   hdoc;

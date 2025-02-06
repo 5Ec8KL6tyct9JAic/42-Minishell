@@ -1,5 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
+/*   Updated: 2025/02/06 17:21:52 by mmouaffa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+** Attend la fin d'un processus enfant et gère les signaux
+** @param pid: PID du processus à attendre
+*/
 void	wait_for_child(pid_t pid)
 {
 	int	status;
@@ -14,12 +30,20 @@ void	wait_for_child(pid_t pid)
 	}
 }
 
+/*
+** Exécute une commande avec gestion des redirections
+** @param args: tableau d'arguments de la commande
+** @return: 0 en cas de succès, 1 en cas d'erreur
+*/
 int	execute_command(char **args)
 {
 	pid_t	pid;
 	int		i;
-	int input_fd = -1;
-	int output_fd = -1;
+	int     input_fd;
+	int     output_fd;
+
+	input_fd = -1;
+	output_fd = -1;
 	if (parse_redirections(args, &input_fd, &output_fd) == -1)
 		return (1);
 	if (!args[0])

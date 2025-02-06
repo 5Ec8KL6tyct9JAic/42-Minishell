@@ -6,16 +6,20 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:46:43 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/01/31 12:50:39 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:20:35 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static const char   *get_error_message(int error_code)
+/*
+** Récupère le message d'erreur correspondant au code
+** @param error_code: code d'erreur (0-5)
+** @return: message d'erreur correspondant
+*/
+static const char *get_error_message(int error_code)
 {
-    static const char *error_messages[] =
-    {
+    static const char *error_messages[] = {
         "command not found",
         "Permission denied",
         "No such file or directory",
@@ -26,10 +30,16 @@ static const char   *get_error_message(int error_code)
     };
     if (error_code >= 0 && error_code < 6)
         return (error_messages[error_code]);
-    return ("Unknown error";)
+    return ("Unknown error");
 }
 
-void    handle_error(const char *context, const char *target, int error_code)
+/*
+** Affiche un message d'erreur formaté
+** @param context: contexte de l'erreur (nom de la commande)
+** @param target: cible de l'erreur (argument problématique)
+** @param error_code: code d'erreur
+*/
+void handle_error(const char *context, const char *target, int error_code)
 {
     const char *error_msg;
 
