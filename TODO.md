@@ -27,44 +27,59 @@
 - [x] `env` sans options ni arguments
 - [x] `exit` sans options
 
-## Tests et Gestion d'Erreurs
-- [x] Tester les cas d'erreurs de syntaxe
-- [ ] Vérifier les fuites mémoire
-- [ ] Tester les cas limites:
-  - [ ] Commandes très longues
-  - [x] Multiples pipes
-  - [x] Quotes non fermées
-  - [ ] Caractères spéciaux
+## Nouvelles Tâches
+- [ ] Refactoring et Organisation du Code
+  - [ ] Réorganiser les fichiers dans des dossiers thématiques
+  - [ ] Séparer les fonctions en modules plus petits
+  - [ ] Uniformiser les noms de fonctions et variables
+  - [ ] Ajouter des commentaires descriptifs
 
-## Optimisations et Améliorations
-- [ ] Nettoyer le code et la gestion mémoire
-- [x] Améliorer la gestion des erreurs
-- [x] Optimiser le parsing des commandes
-- [ ] Documenter le code
-- [ ] Vérifier la norme 42
+- [ ] Gestion des Erreurs
+  - [ ] Implémenter un système unifié de gestion d'erreurs
+  - [ ] Ajouter des messages d'erreur plus descriptifs
+  - [ ] Gérer les cas d'erreur manquants
+
+- [ ] Améliorations de Performance
+  - [ ] Optimiser la gestion de la mémoire
+  - [ ] Réduire les allocations/libérations inutiles
+  - [ ] Améliorer la vitesse de parsing
+
+- [ ] Tests et Validation
+  - [ ] Créer une suite de tests unitaires
+  - [ ] Tester les cas limites
+  - [ ] Vérifier la conformité avec bash
 
 ## Tests Spécifiques à Faire
-- [ ] Tester avec `valgrind`
-- [ ] Comparer le comportement avec bash
-- [ ] Tester les cas suivants:
-  - [ ] `echo $PATH`
-  - [ ] `echo "$PATH"`
-  - [ ] `echo '$PATH'`
-  - [ ] `cat << EOF`
-  - [x] `ls | grep a | wc -l`
+- [ ] Tests de Mémoire
+  - [ ] Valgrind sur toutes les commandes
+  - [ ] Vérifier les fuites dans les pipes
+  - [ ] Tester les cas d'allocation échouée
 
-## Points à Améliorer
-1. Implémenter le heredoc (`<<`)
-2. Gérer la variable `$?` pour les codes de retour
-3. Vérifier et corriger les fuites mémoire
-4. Tester les cas limites manquants
-5. Documenter le code
-6. Vérifier la conformité avec la norme 42
-7. Effectuer des tests approfondis avec valgrind
-8. Comparer systématiquement le comportement avec bash
+- [ ] Tests Fonctionnels
+  - [ ] Tester les combinaisons de redirections
+  - [ ] Vérifier le comportement avec de longues commandes
+  - [ ] Tester les cas d'erreur de syntaxe
+
+- [ ] Tests de Robustesse
+  - [ ] Tester avec des entrées malformées
+  - [ ] Vérifier la gestion des signaux pendant l'exécution
+  - [ ] Tester les limites de mémoire
+
+## Documentation
+- [ ] Ajouter des commentaires de fonction complets
+- [ ] Créer un guide d'utilisation
+- [ ] Documenter les choix d'implémentation
+- [ ] Ajouter des exemples d'utilisation
+
+## Optimisations Futures
+- [ ] Améliorer la gestion des variables d'environnement
+- [ ] Optimiser le parsing des commandes complexes
+- [ ] Ajouter la complétion de commandes
+- [ ] Implémenter l'historique persistant
 
 ## Notes
-- Votre implémentation des builtins est complète
-- La gestion des pipes et des redirections de base est bien implémentée
-- La gestion des signaux est en place
-- Le parsing des commandes et des quotes fonctionne correctement 
+- La structure de base est solide
+- Les builtins sont tous implémentés
+- La gestion des signaux fonctionne bien
+- Le parsing est fonctionnel mais peut être optimisé
+- La gestion de la mémoire nécessite une attention particulière 
