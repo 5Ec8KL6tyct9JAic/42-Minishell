@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/06 16:52:11 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:42:30 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@
 # define ERR_EXEC_FAILED          3
 # define ERR_NUMERIC_ARG_REQUIRED 4
 # define ERR_INVALID_VAR          5
+# define ERR_CMD_EXEC             6
+
+/*
+** Structure pour l'environnement du shell
+** @member env: tableau des variables d'environnement
+** @member exit_status: code de sortie de la dernière commande
+*/
+typedef struct s_env
+{
+	char    **env;           // Variables d'environnement
+	int     exit_status;     // Code de sortie
+}           t_env;
 
 typedef struct s_cmd
 {
@@ -59,11 +71,11 @@ typedef struct s_heredoc
 }			t_heredoc;
 
 // init la struct cmd
-void	init_shell(void);
-void	init_cmd(t_cmd *cmd, char *input);
-void	free_cmd(t_cmd *cmd);
-char	*get_cmd_path(char *cmd);
-void	ft_free_tab(char **tab);
+void		init_shell(void);
+void		init_cmd(t_cmd *cmd, char *input);
+void		free_cmd(t_cmd *cmd);
+char		*get_cmd_path(char *cmd);
+void		ft_free_tab(char **tab);
 
 // Prototypes pour parser.c
 t_cmd		*parse_command(char *input);
@@ -108,28 +120,28 @@ void		second_pipe(char **av, int *p_fd, char **env);
 int			main(int ac, char **av, char **env);
 
 // signals.c
-void	setup_interactive_signals(void);
-void	setup_execution_signals(void);
-void	restore_default_signals(void);
+void		setup_interactive_signals(void);
+void		setup_execution_signals(void);
+void		restore_default_signals(void);
 
 // execution.c
-int		execute_command(char **args);
-void	wait_for_child(pid_t pid);
+int			execute_command(char **args);
+void		wait_for_child(pid_t pid);
 
 // exec pipe
-void	execute_pipe_commands(char ***cmds);
+void		execute_pipe_commands(char ***cmds);
 
 // parser
-int	count_pipes(char **args);
-char	***split_piped_commands(char **args);
+int			count_pipes(char **args);
+char		***split_piped_commands(char **args);
 
 // utils
-void	free_args(char **args);
-int	ft_strcmp(const char *s1, const char *s2);
+void		free_args(char **args);
+int			ft_strcmp(const char *s1, const char *s2);
 
 // redirections
-void	execute_with_redirections(char **args, int prev_fd, int has_next);
-int	parse_redirections(char **args, int *input_fd, int *output_fd);
+void		execute_with_redirections(char **args, int prev_fd, int has_next);
+int			parse_redirections(char **args, int *input_fd, int *output_fd);
 
 // Nouveaux prototypes pour init_helper.c
 int         handle_redirections(t_cmd *cmd, char **args, int i);
