@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/07 12:41:56 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/09 16:30:42 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ static t_env *init_shell_env(char **env)
 ** @param input: ligne de commande parsée
 ** @param env: environnement du shell
 */
-static void execute_command_line(char **args, t_env *env)
+static	void	execute_command_line(char **args, t_env *env)
 {
-	char ***piped_cmds;
-	t_cmd cmd;
+	char	***piped_cmds;
+	t_cmd	cmd;
 
 	if (!args || !args[0])
-		return;
+		return ;
 
 	// Si la commande contient des pipes
 	if (count_pipes(args) > 0)
@@ -89,10 +89,10 @@ static void execute_command_line(char **args, t_env *env)
 ** @param env: environnement système
 ** @return: code de sortie du shell
 */
-static int shell_loop(t_env *env)
+static	int	shell_loop(t_env *env)
 {
-	char *input;
-	char **args;
+	char	*input;
+	char	**args;
 
 	while (1)
 	{
@@ -123,10 +123,10 @@ static int shell_loop(t_env *env)
 	return (env->exit_status);
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	t_env *shell_env;
-	int exit_status;
+	t_env	*shell_env;
+	int		exit_status;
 
 	(void)ac;
 	(void)av;

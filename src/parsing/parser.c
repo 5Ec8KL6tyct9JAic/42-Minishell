@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/06 17:21:33 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/09 15:51:52 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,21 @@ char	***split_piped_commands(char **args)
 ** @param input: chaîne d'entrée à parser
 ** @return: tableau de tokens ou NULL en cas d'erreur
 */
-char **parse_input(char *input)
+char	**parse_input(char *input)
 {
-    char **tokens;
-    char **result;
-    int i;
-    int j;
+	char	**tokens;
+	char	**result;
+	int		i;
+	int		j;
 
-    if (!input)
-        return (NULL);
-    tokens = advanced_split(input);
-    if (!tokens)
-        return (NULL);
-    result = parse_tokens(tokens);
-    ft_free_tab(tokens);
-    return (result);
+	if (!input)
+		return (NULL);
+	tokens = advanced_split(input);
+	if (!tokens)
+		return (NULL);
+	result = parse_tokens(tokens);
+	ft_free_tab(tokens);
+	return (result);
 }
 
 /*
@@ -94,24 +94,24 @@ char **parse_input(char *input)
 ** @param tokens: tableau de tokens bruts
 ** @return: tableau de tokens traités ou NULL en cas d'erreur
 */
-static char **parse_tokens(char **tokens)
+static	char	**parse_tokens(char **tokens)
 {
-    char **result;
-    int i;
-    int j;
+	char	**result;
+	int		i;
+	int		j;
 
-    i = 0;
-    while (tokens[i])
-        i++;
-    result = malloc(sizeof(char *) * (i + 1));
-    if (!result)
-        return (NULL);
-    i = 0;
-    j = 0;
-    while (tokens[i])
-    {
-        result[j++] = ft_strdup(tokens[i++]);
-    }
-    result[j] = NULL;
-    return (result);
+	i = 0;
+	while (tokens[i])
+		i++;
+	result = malloc(sizeof(char *) * (i + 1));
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (tokens[i])
+	{
+		result[j++] = ft_strdup(tokens[i++]);
+	}
+	result[j] = NULL;
+	return (result);
 }

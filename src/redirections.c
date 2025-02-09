@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
+/*   Updated: 2025/02/09 16:31:29 by davvaler         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -91,11 +103,11 @@ static char	**clean_args(char **args)
 
 void	execute_with_redirections(char **args, int prev_fd, int has_next)
 {
-	(void)has_next;
 	int		input_fd;
 	int		output_fd;
 	char	**args_clean;
 	pid_t	pid;
+	(void)has_next;
 
 	input_fd = -1;
 	output_fd = -1;
