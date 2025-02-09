@@ -6,7 +6,7 @@
 /*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:46:43 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/09 15:49:10 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/09 16:37:03 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static const	char	*get_error_message(int error_code)
 ** @param target: cible de l'erreur (argument problématique)
 ** @param error_code: code d'erreur
 */
-void handle_error(const char *context, const char *target, int error_code)
+void	handle_error(const char *context, const char *target, int error_code)
 {
-	const char *error_msg;
+	const char	*error_msg;
 
 	error_msg = get_error_message(error_code);
 	write(2, "minishell: ", 11);
