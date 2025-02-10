@@ -6,11 +6,11 @@
 /*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:52:37 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 14:21:59 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:44:15 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mini.h"
+#include "minishell.h"
 
 void	print_error(char *cmd, char *msg)
 {
