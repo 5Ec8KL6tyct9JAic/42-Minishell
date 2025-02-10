@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 14:52:11 by davvaler         ###   ########.fr       */
+/*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
+/*   Updated: 2025/02/10 14:53:39 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,5 +153,8 @@ void		execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next);
 void		print_error(char *cmd, char *msg);
 void		exit_with_error(char *cmd, char *msg, int exit_code);
 void		handle_exec_error(char *cmd);
+
+// Add this with the other prototypes if not already there
+void    print_error(const char *context, const char *message);
 
 #endif

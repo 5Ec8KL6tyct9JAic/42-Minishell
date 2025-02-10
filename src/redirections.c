@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 14:44:29 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 14:44:35 by davvaler         ###   ########.fr       */
+/*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
+/*   Updated: 2025/02/10 14:46:46 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdlib.h>
+#include <stddef.h>
+
+// Function prototype for print_error if not already in minishell.h
+void    print_error(const char *context, const char *message);
 
 /*
 ** Ouvre un fichier selon le mode spécifié
