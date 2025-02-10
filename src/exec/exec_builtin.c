@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:58:54 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/07 11:34:19 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:05:13 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	execute_builtin(t_cmd *cmd, char **envp)
 	else
 	{
 		fprintf(stderr, "Commande interne inconnue : %s\n", cmd->args[0]);
-		exit_handler(ERR_CMD_NOT_FOUND);
+		sigint_handler(ERR_CMD_NOT_FOUND);
 	}
 }
 
@@ -94,24 +94,25 @@ void	execute_exit(t_cmd *cmd)
 
 void	execute_echo(t_cmd *cmd)
 {
+	int	newlin;
 	int	i;
-	int	newline;
 
 	i = 1;
-	newline = 1;
-	while (cmd->args[i] && ft_strcmp(cmd->args[i], "-n") == 0)
+	newlin = 1;
+	if (cmd->args[i] && ft_strcmp(cmd->args[i], "-n") == 0)
 	{
-		newline = 0;
+		newlin = 0;
 		i++;
 	}
 	while (cmd->args[i])
 	{
-		printf("%s", cmd->args[i]);
-		if (cmd->args[++i])
-			printf(" ");
+		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
+		if (cmd->args[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
 	}
-	if (newline)
-		printf("\n");
+	if (newlin)
+		ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
 void	execute_pwd(void)

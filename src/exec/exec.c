@@ -6,7 +6,11 @@
 /*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/02/10 14:18:02 by davvaler         ###   ########.fr       */
+=======
+/*   Updated: 2025/02/10 14:09:26 by mmouaffa         ###   ########.fr       */
+>>>>>>> 98e6e88e06dde3a061841562140bdb63b6bab0e2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +42,12 @@ void	wait_for_child(pid_t pid)
 int	execute_command(char **args)
 {
 	pid_t	pid;
-	int		i;
 	int		input_fd;
 	int		output_fd;
 
 	input_fd = -1;
 	output_fd = -1;
-	if (parse_redirections(args, &input_fd, &output_fd) == -1 || !args[0])
+	if (handle_redirections(args, &input_fd, &output_fd) == -1 || !args[0])
 		return (1);
 	pid = fork();
 	if (pid == -1)

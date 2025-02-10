@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/09 15:51:52 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:59:14 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,28 +68,6 @@ char	***split_piped_commands(char **args)
 }
 
 /*
-** Parse l'entrée utilisateur en tokens
-** @param input: chaîne d'entrée à parser
-** @return: tableau de tokens ou NULL en cas d'erreur
-*/
-char	**parse_input(char *input)
-{
-	char	**tokens;
-	char	**result;
-	int		i;
-	int		j;
-
-	if (!input)
-		return (NULL);
-	tokens = advanced_split(input);
-	if (!tokens)
-		return (NULL);
-	result = parse_tokens(tokens);
-	ft_free_tab(tokens);
-	return (result);
-}
-
-/*
 ** Convertit les tokens bruts en tokens finaux
 ** @param tokens: tableau de tokens bruts
 ** @return: tableau de tokens traités ou NULL en cas d'erreur
@@ -113,5 +91,25 @@ static	char	**parse_tokens(char **tokens)
 		result[j++] = ft_strdup(tokens[i++]);
 	}
 	result[j] = NULL;
+	return (result);
+}
+
+/*
+** Parse l'entrée utilisateur en tokens
+** @param input: chaîne d'entrée à parser
+** @return: tableau de tokens ou NULL en cas d'erreur
+*/
+char	**parse_input(char *input)
+{
+	char	**tokens;
+	char	**result;
+
+	if (!input)
+		return (NULL);
+	tokens = advanced_split(input);
+	if (!tokens)
+		return (NULL);
+	result = parse_tokens(tokens);
+	free_args(tokens);
 	return (result);
 }

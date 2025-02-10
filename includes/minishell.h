@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 13:43:24 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:11:18 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ typedef struct s_env
 	int     exit_status;     // Code de sortie
 }           t_env;
 
+typedef struct s_heredoc
+{
+	char	*delimiter;
+	char	*content;
+	int		pipe_fd[2];
+}			t_heredoc;
+
 typedef struct s_cmd
 {
 	char	**args;
@@ -61,14 +68,8 @@ typedef struct s_cmd
 	int		is_builtin;
 	int		input_fd;
 	int		output_fd;
+	t_heredoc   *heredoc;
 }			t_cmd;
-
-typedef struct s_heredoc
-{
-	char	*delimiter;
-	char	*content;
-	int		pipe_fd[2];
-}			t_heredoc;
 
 // Prototypes pour init.c
 void        init_shell(void);
@@ -111,6 +112,7 @@ char        *expand_heredoc_line(char *line, t_env *env, int quote_type);
 int         handle_heredoc(t_heredoc *hdoc, t_env *env);
 void        heredoc_signal_handler(int sig);
 int         execute_heredoc(t_cmd *cmd, char *delimiter, t_env *env);
+char        *expand_variables(char *line, t_env *env);
 
 // Prototypes pour handlers
 int         handle_quotes_count(const char *input, int *i, int *in_quotes, char *quote_char);
@@ -123,7 +125,6 @@ char        *split_redirection(char *str, int *i);
 char        **advanced_split(const char *input);
 
 // Prototypes pour pipes.c
-int         open_file(char *file, int in_or_out);
 void        first_pipe(char **av, int *p_fd, char **env);
 void        second_pipe(char **av, int *p_fd, char **env);
 void        close_pipes(int *p_fd);
@@ -141,5 +142,8 @@ char        *get_cmd_path(char *cmd);
 int         ft_strcmp(const char *s1, const char *s2);
 int         sig_save_handler(int new);
 int			ft_isspace(int c);
+
+// Add with the other exec prototypes
+void    execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next);
 
 #endif

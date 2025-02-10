@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/02/10 14:28:24 by davvaler         ###   ########.fr       */
+=======
+/*   Updated: 2025/02/10 13:20:19 by mmouaffa         ###   ########.fr       */
+>>>>>>> 98e6e88e06dde3a061841562140bdb63b6bab0e2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,19 +101,13 @@ static	int	shell_loop(t_env *env)
 	{
 		setup_interactive_signals();
 		input = readline("minishell> ");
-
-		// Gestion de EOF (Ctrl+D)
 		if (!input)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);
 			return (env->exit_status);
 		}
-
-		// Ajoute la commande à l'historique si non vide
 		if (*input)
 			add_history(input);
-
-		// Parse l'entrée
 		args = parse_input(input);
 		free(input);
 
