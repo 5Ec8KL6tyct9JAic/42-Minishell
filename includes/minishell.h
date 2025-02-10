@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 15:17:39 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:21:18 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,22 +156,9 @@ void		exit_with_error(char *cmd, char *msg, int exit_code);
 void		handle_exec_error(char *cmd);
 
 // Add this with the other prototypes if not already there
-void    print_error(char *context, char *message);
+void		print_error(char *context, char *message);
 
 // Add this with the other handler prototypes
-int     handle_token_redirections(t_cmd *cmd, char **args, int i);
-
-// Add if not already present
-void    exec_external_cmd(t_cmd *cmd, char **env);
-
-// Ajouter ces prototypes
-char    *extract_var_name(char *str);
-void    handle_exec_error(char *cmd);
-char    *get_cmd_path(char *cmd);
-void    handle_error(const char *context, const char *target, int error_code);
-void    print_error(char *cmd, char *msg);
-
-// Ajouter avec les autres prototypes
-int    parse_redirections_exec(char **args, int *input_fd, int *output_fd);
+int			handle_token_redirections(t_cmd *cmd, char **args, int i);
 
 #endif
