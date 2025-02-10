@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/09 16:31:29 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:08:17 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static char	**clean_args(char **args)
 	return (new_args);
 }
 
-void	execute_with_redirections(char **args, int prev_fd, int has_next)
+void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 {
 	int		input_fd;
 	int		output_fd;
@@ -111,9 +111,9 @@ void	execute_with_redirections(char **args, int prev_fd, int has_next)
 
 	input_fd = -1;
 	output_fd = -1;
-	if (parse_redirections(args, &input_fd, &output_fd) == -1)
+	if (parse_redirections(cmd->args, &input_fd, &output_fd) == -1)
 		return ;
-	args_clean = clean_args(args);
+	args_clean = clean_args(cmd->args);
 	if (!args_clean || !args_clean[0])
 		return (free(args_clean));
 	pid = fork();

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handlingD.c                                  :+:      :+:    :+:   */
+/*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:46:43 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/09 16:37:03 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:03:13 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@
 */
 static const	char	*get_error_message(int error_code)
 {
-	static const char	*error_messages[];
-
-	error_messages[] = {
+	static const char *error_messages[] = {
 		"command not found",
-		"Permission denied",
-		"No such file or directory",
+		"permission denied",
+		"no such file or directory",
 		"Execution failed",
 		"numeric argument required",
 		"Invalid variable",

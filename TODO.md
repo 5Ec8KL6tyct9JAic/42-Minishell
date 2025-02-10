@@ -65,12 +65,6 @@
   - [ ] Vérifier la gestion des signaux pendant l'exécution
   - [ ] Tester les limites de mémoire
 
-## Documentation
-- [ ] Ajouter des commentaires de fonction complets
-- [ ] Créer un guide d'utilisation
-- [ ] Documenter les choix d'implémentation
-- [ ] Ajouter des exemples d'utilisation
-
 ## Optimisations Futures
 - [ ] Améliorer la gestion des variables d'environnement
 - [ ] Optimiser le parsing des commandes complexes
@@ -83,3 +77,6 @@
 - La gestion des signaux fonctionne bien
 - Le parsing est fonctionnel mais peut être optimisé
 - La gestion de la mémoire nécessite une attention particulière 
+
+
+

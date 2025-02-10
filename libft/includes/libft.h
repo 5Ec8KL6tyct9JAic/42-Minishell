@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvalerio <dvalerio@42lausanne.ch>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:26:05 by dvalerio          #+#    #+#             */
-/*   Updated: 2024/01/19 12:51:33 by dvalerio         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:52:40 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void			ft_striteri(char *s, void (*f)(unsigned int, char*));
 int				ft_printptr(void *n, const char form);
 int				ft_printhex(unsigned int n, const char form);
 int				ft_printnbr(int n);
+char			*ft_strncat(char *dest, const char *src, size_t n);
 
 /* -------◊        FUNCTIONS TO CONVERSION/STRINGS FOR INTEGERS    ◊------- */
 int				ft_atoi(const char *nptr);
@@ -70,6 +71,7 @@ void			*ft_memmove(void *dest, const void *src, size_t len);
 void			*ft_memchr(const void *s, int c, size_t n);
 void			*ft_calloc(size_t count, size_t size);
 char			*ft_strdup(const char *s1);
+char	        *ft_strndup(const char *s, size_t n);
 
 /* -------◊        FUNCTIONS FILE DESCRIPTOR     ◊------- */
 void			ft_putchar_fd(char c, int fd);

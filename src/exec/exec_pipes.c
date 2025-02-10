@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/07 11:36:14 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:09:00 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,21 @@
 */
 static void	child_process(char ***cmds, int i, int prev_fd, int fd[2])
 {
+	t_cmd	*cmd;
+
+	// Create and initialize t_cmd structure
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		exit(1);
+	cmd->args = cmds[i];
+	cmd->input_redirection = NULL;
+	cmd->output_redirection = NULL;
+	cmd->path = NULL;
+	cmd->is_builtin = 0;
+	cmd->input_fd = -1;
+	cmd->output_fd = -1;
+	cmd->heredoc = NULL;
+
 	if (i > 0)
 	{
 		dup2(prev_fd, STDIN_FILENO);
@@ -32,7 +47,8 @@ static void	child_process(char ***cmds, int i, int prev_fd, int fd[2])
 		close(fd[0]);
 		close(fd[1]);
 	}
-	execute_with_redirections(cmds[i], prev_fd, cmds[i + 1] != NULL);
+	execute_with_redirections(cmd, prev_fd, cmds[i + 1] != NULL);
+	free(cmd);  // Clean up
 	exit(0);
 }
 

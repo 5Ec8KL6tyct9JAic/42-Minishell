@@ -6,7 +6,7 @@
 #    By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 10:00:31 by tmatis            #+#    #+#              #
-#    Updated: 2025/02/10 13:41:13 by mmouaffa         ###   ########.fr        #
+#    Updated: 2025/02/10 13:56:17 by mmouaffa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS			= signals.c\
 					init/split_handler.c\
 					init/token_handler.c\
 					init/init.c\
-					parsing/commad_parse.c\
+					parsing/command_parse.c\
 					parsing/parser.c\
 					main.c\
 					redirections.c\
