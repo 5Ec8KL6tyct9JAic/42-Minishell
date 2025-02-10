@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:42:52 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 14:42:55 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:59:28 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	wait_for_child(pid_t pid)
 */
 int	execute_command(char **args)
 {
-	pid_t	pid;
 	int		input_fd;
 	int		output_fd;
+	pid_t	pid;
 
 	input_fd = -1;
 	output_fd = -1;

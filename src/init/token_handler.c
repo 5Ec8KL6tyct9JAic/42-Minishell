@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:58:59 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/09 15:57:53 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:00:07 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	handle_redirections_count(const char *input, int *i)
 ** Traite les redirections et met à jour la structure de commande
 ** @return: nouvel index après traitement ou -1 si pas de redirection
 */
-int	handle_redirections(t_cmd *cmd, char **args, int i)
+int	handle_token_redirections(t_cmd *cmd, char **args, int i)
 {
 	if (ft_strcmp(args[i], "<") == 0 && args[i + 1])
 	{

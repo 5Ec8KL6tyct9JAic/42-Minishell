@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 14:53:39 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:00:07 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int			handle_quotes_count(const char *input, int *i,
 void		handle_quotes_split(const char *input, int *i,
 				char **result, int *j);
 int			handle_redirections_count(const char *input, int *i);
-int			handle_redirections(t_cmd *cmd, char **args, int i);
+int			handle_redirections(char **args, int *input_fd, int *output_fd);
 char		*split_redirection(char *str, int *i);
 
 // Prototypes pour split.c
@@ -155,6 +155,9 @@ void		exit_with_error(char *cmd, char *msg, int exit_code);
 void		handle_exec_error(char *cmd);
 
 // Add this with the other prototypes if not already there
-void    print_error(const char *context, const char *message);
+void    print_error(char *context, char *message);
+
+// Add this with the other handler prototypes
+int     handle_token_redirections(t_cmd *cmd, char **args, int i);
 
 #endif

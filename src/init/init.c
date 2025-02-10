@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:58:59 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 13:49:22 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:00:23 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	cmd_split(t_cmd *cmd, const char *input)
 	cmd->output_redirection = NULL;
 	while (args[++i])
 	{
-		redir_index = handle_redirections(cmd, args, i);
+		redir_index = handle_token_redirections(cmd, args, i);
 		if (redir_index != -1)
 			i = redir_index;
 		else

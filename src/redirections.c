@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 14:46:46 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:57:12 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stddef.h>
 
 // Function prototype for print_error if not already in minishell.h
-void    print_error(const char *context, const char *message);
+void    print_error(char *context, char *message);
 
 /*
 ** Ouvre un fichier selon le mode spécifié
