@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/07 12:50:17 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:43:24 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,9 @@ void        restore_default_signals(void);
 
 // Prototypes pour utils.c
 void        free_args(char **args);
-void        ft_free_tab(char **tab);
 char        *get_cmd_path(char *cmd);
 int         ft_strcmp(const char *s1, const char *s2);
 int         sig_save_handler(int new);
+int			ft_isspace(int c);
 
 #endif

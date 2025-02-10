@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/07 12:47:40 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:41:59 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,15 @@ int	sig_save_handler(int new)
 		return (old);
 	old = new;
 	return (old);
+}
+
+/*
+** Vérifie si un caractère est un espace (whitespace)
+** @param c: caractère à vérifier
+** @return: 1 si c'est un espace, 0 sinon
+*/
+int	ft_isspace(int c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || 
+		c == '\v' || c == '\f' || c == '\r');
 }
