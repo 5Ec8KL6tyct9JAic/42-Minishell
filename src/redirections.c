@@ -6,7 +6,7 @@
 /*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/09 16:31:29 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:24:18 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,14 @@ static int	handle_redirection(char **args, int i, int *in_fd, int *out_fd)
 	int	fd;
 
 	if (!args[i + 1])
-		return (-1);
+		return (print_error("syntax", "missing file for redirection"), -1);
 	fd = open_file(args[i + 1], args[i]);
 	if (fd == -1)
-		return (perror(args[i + 1]), -1);
+	{
+		print_error("minishell", ft_strjoin(args[i + 1],
+				": failed to open file"));
+		return (-1);
+	}
 	if (args[i][0] == '<')
 		*in_fd = fd;
 	else

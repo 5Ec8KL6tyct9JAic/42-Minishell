@@ -6,7 +6,7 @@
 /*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/09 16:30:42 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:28:24 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static	void	execute_command_line(char **args, t_env *env)
 
 	if (!args || !args[0])
 		return ;
-
 	// Si la commande contient des pipes
 	if (count_pipes(args) > 0)
 	{

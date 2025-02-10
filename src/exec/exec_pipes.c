@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/07 11:36:14 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:26 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	execute_pipe_commands(char ***cmds)
 	while (cmds[i])
 	{
 		if (cmds[i + 1] && pipe(fd) == -1)
-			return (perror("pipe"));
+			return (print_error("pipe", "failed to create pipe"));
 		pid = fork();
 		if (pid == -1)
-			return (perror("fork"));
+			return (print_error("fork", "failed to create process"));
 		if (pid == 0)
 			child_process(cmds, i, prev_fd, fd);
 		else

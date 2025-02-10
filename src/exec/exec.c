@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/07 11:36:49 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:18:02 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ int	execute_command(char **args)
 	{
 		restore_default_signals();
 		execvp(args[0], args);
-		perror("execvp");
-		exit(127);
+		handle_exec_error(args[0]);
 	}
 	setup_execution_signals();
 	wait_for_child(pid);
