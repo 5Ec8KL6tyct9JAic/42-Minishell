@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 15:21:18 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:22:17 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,5 +160,8 @@ void		print_error(char *context, char *message);
 
 // Add this with the other handler prototypes
 int			handle_token_redirections(t_cmd *cmd, char **args, int i);
+
+// Prototypes pour redirections
+int     parse_redirections_exec(char **args, int *input_fd, int *output_fd);
 
 #endif
