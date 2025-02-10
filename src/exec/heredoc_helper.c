@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:42:11 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 13:44:34 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:15:26 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,16 @@ int	execute_heredoc(t_cmd *cmd, char *delimiter, t_env *env)
 	}
 	cmd->input_fd = hdoc.pipe_fd[0];
 	return (0);
+}
+
+char    *extract_var_name(char *str)
+{
+    int     i;
+    char    *name;
+
+    i = 0;
+    while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+        i++;
+    name = ft_strndup(str, i);
+    return (name);
 }

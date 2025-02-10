@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 14:21:29 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:15:26 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,34 @@ int	ft_isspace(int c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || 
 		c == '\v' || c == '\f' || c == '\r');
+}
+
+char    *get_cmd_path(char *cmd)
+{
+    char    *path;
+    char    **paths;
+    int     i;
+
+    if (!cmd)
+        return (NULL);
+    if (cmd[0] == '/' || cmd[0] == '.')
+        return (ft_strdup(cmd));
+    path = getenv("PATH");
+    if (!path)
+        return (NULL);
+    paths = ft_split(path, ':');
+    i = -1;
+    while (paths[++i])
+    {
+        path = ft_strjoin(paths[i], "/");
+        path = ft_strjoin_free(path, cmd);
+        if (access(path, F_OK) == 0)
+        {
+            free_args(paths);
+            return (path);
+        }
+        free(path);
+    }
+    free_args(paths);
+    return (NULL);
 }

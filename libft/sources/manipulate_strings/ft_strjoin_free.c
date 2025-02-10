@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 15:17:30 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 15:17:18 by mmouaffa         ###   ########.fr       */
+/*   Created: 2025/02/10 15:15:30 by mmouaffa          #+#    #+#             */
+/*   Updated: 2025/02/10 15:15:35 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 
-void	ft_putstr_fd(const char *s, int fd)
+char    *ft_strjoin_free(char *s1, char *s2)
 {
-	if (!s)
-		return ;
-	write(fd, s, ft_strlen(s));
-}
+    char    *str;
+
+    str = ft_strjoin(s1, s2);
+    free(s1);
+    return (str);
+} 

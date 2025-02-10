@@ -3,13 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dvalerio <dvalerio@student.42.fr>          +#+  +:+       +#+         #
+#    By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 13:16:56 by dvalerio          #+#    #+#              #
-#    Updated: 2022/10/21 11:38:31 by dvalerio         ###   ########.fr        #
+#    Updated: 2025/02/10 15:13:28 by mmouaffa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-# Nom du fichier cible
+
 NAME = libft.a
 
 # Compilateur
@@ -67,6 +67,12 @@ SOURCES = sources/conversions/ft_atoi.c \
     sources/manipulate_strings/ft_printnbr.c \
     sources/get_next_line/get_next_line.c \
     sources/ft_printf/ft_printf.c \
+    sources/manipulate_strings/ft_strjoin_free.c \
+    sources/manipulate_strings/ft_strjoin_char.c \
+    sources/manipulate_strings/ft_strndup.c \
+    sources/manipulate_strings/ft_strcpy.c \
+    sources/manipulate_strings/ft_strcat.c \
+    sources/manipulate_strings/ft_strncat.c \
 
 # Transformation des fichiers source en fichiers objet
 OBJECTS = $(SOURCES:.c=.o)

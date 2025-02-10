@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:26:05 by dvalerio          #+#    #+#             */
-/*   Updated: 2025/02/10 13:52:40 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:16:48 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int				ft_printptr(void *n, const char form);
 int				ft_printhex(unsigned int n, const char form);
 int				ft_printnbr(int n);
 char			*ft_strncat(char *dest, const char *src, size_t n);
-
+char	        *ft_strcpy(char *dest, const char *src);
+char			*ft_strcat(char *dest, const char *src);
 /* -------◊        FUNCTIONS TO CONVERSION/STRINGS FOR INTEGERS    ◊------- */
 int				ft_atoi(const char *nptr);
 char			*ft_itoa(int n);
@@ -75,7 +76,7 @@ char	        *ft_strndup(const char *s, size_t n);
 
 /* -------◊        FUNCTIONS FILE DESCRIPTOR     ◊------- */
 void			ft_putchar_fd(char c, int fd);
-void			ft_putstr_fd(char *s, int fd);
+void			ft_putstr_fd(const char *s, int fd);
 void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 
@@ -84,5 +85,8 @@ char			*get_next_line(int fd);
 
 /* -------◊    PRINTF    ◊------- */
 int				ft_printf(char const *str, ...);
+
+char    *ft_strjoin_free(char *s1, char *s2);
+char    *ft_strjoin_char(char *str, char c);
 
 #endif

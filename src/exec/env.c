@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envM.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:13:56 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/07 11:30:51 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:09:42 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,31 @@ int	unset_env_var(char ***env, const char *key)
 		}
 	}
 	return (-1);
+}
+
+/*
+** Updates an existing environment variable
+** @param env: pointer to environment array
+** @param key: variable name
+** @param new_var: new value in format "KEY=VALUE"
+** @return: 0 on success, -1 on failure
+*/
+int    update_env_var(char ***env, const char *key, char *new_var)
+{
+    int     i;
+    size_t  key_len;
+
+    i = 0;
+    key_len = ft_strlen(key);
+    while ((*env)[i])
+    {
+        if (ft_strncmp((*env)[i], key, key_len) == 0 && (*env)[i][key_len] == '=')
+        {
+            free((*env)[i]);
+            (*env)[i] = new_var;
+            return (0);
+        }
+        i++;
+    }
+    return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:42:52 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 14:59:28 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:17:39 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	execute_command(char **args)
 
 	input_fd = -1;
 	output_fd = -1;
-	if (handle_redirections(args, &input_fd, &output_fd) == -1 || !args[0])
+	if (parse_redirections_exec(args, &input_fd, &output_fd) == -1 || !args[0])
 		return (1);
 	pid = fork();
 	if (pid == -1)

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 14:57:12 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:12:52 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	handle_redirection(char **args, int i, int *in_fd, int *out_fd)
 	return (0);
 }
 
-int	parse_redirections(char **args, int *input_fd, int *output_fd)
+int	parse_redirections_exec(char **args, int *input_fd, int *output_fd)
 {
 	int	i;
 
@@ -120,7 +120,7 @@ void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 
 	input_fd = -1;
 	output_fd = -1;
-	if (parse_redirections(cmd->args, &input_fd, &output_fd) == -1)
+	if (parse_redirections_exec(cmd->args, &input_fd, &output_fd) == -1)
 		return ;
 	args_clean = clean_args(cmd->args);
 	if (!args_clean || !args_clean[0])

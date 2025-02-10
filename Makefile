@@ -6,7 +6,7 @@
 #    By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 10:00:31 by tmatis            #+#    #+#              #
-#    Updated: 2025/02/10 14:45:26 by mmouaffa         ###   ########.fr        #
+#    Updated: 2025/02/10 15:15:26 by mmouaffa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,13 +40,13 @@ INCLUDE_PATH	= ./includes
 
 SRCS			= signals.c\
 					utils.c\
+					error_handling.c\
 					init/quote_handler.c\
 					init/split_handler.c\
 					init/token_handler.c\
 					init/init.c\
 					parsing/command_parse.c\
 					parsing/parser.c\
-					main.c\
 					redirections.c\
 					builtin.c\
 					exec/exec_builtin.c\
@@ -56,7 +56,7 @@ SRCS			= signals.c\
 					exec/exec_builtin_helper.c\
 					exec/heredoc_helper.c\
 					exec/env.c\
-					exec/exec_external.c\
+					exec/exec_external.c
 
 MAIN			= main.c
 
