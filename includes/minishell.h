@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 14:11:18 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:52:11 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@
 */
 typedef struct s_env
 {
-	char    **env;           // Variables d'environnement
-	int     exit_status;     // Code de sortie
-}           t_env;
+	char	**env;// Variables d'environnement
+	int		exit_status;// Code de sortie
+}	t_env;
 
 typedef struct s_heredoc
 {
@@ -61,89 +61,97 @@ typedef struct s_heredoc
 
 typedef struct s_cmd
 {
-	char	**args;
-	char	*input_redirection;
-	char	*output_redirection;
-	char	*path;
-	int		is_builtin;
-	int		input_fd;
-	int		output_fd;
-	t_heredoc   *heredoc;
+	char		**args;
+	char		*input_redirection;
+	char		*output_redirection;
+	char		*path;
+	int			is_builtin;
+	int			input_fd;
+	int			output_fd;
+	t_heredoc	*heredoc;
 }			t_cmd;
 
 // Prototypes pour init.c
-void        init_shell(void);
-void        init_cmd(t_cmd *cmd, char *input);
-void        free_cmd(t_cmd *cmd);
+void		init_shell(void);
+void		init_cmd(t_cmd *cmd, char *input);
+void		free_cmd(t_cmd *cmd);
 
 // Prototypes pour parser.c
-int         count_pipes(char **args);
-char        ***split_piped_commands(char **args);
-char        **parse_input(char *input);
+int			count_pipes(char **args);
+char		***split_piped_commands(char **args);
+char		**parse_input(char *input);
 
 // Prototypes pour error_handling.c
-void        handle_error(const char *context, const char *target, int error_code);
+void		handle_error(const char *context,
+				const char *target, int error_code);
 
 // Prototypes pour env.c
-char        *get_env_var(char **env, const char *key);
-int         handle_existing_var(char ***env, const char *key, char *new_var);
-int         set_env_var(char ***env, const char *key, const char *value);
-int         unset_env_var(char ***env, const char *key);
+char		*get_env_var(char **env, const char *key);
+int			handle_existing_var(char ***env, const char *key, char *new_var);
+int			set_env_var(char ***env, const char *key, const char *value);
+int			unset_env_var(char ***env, const char *key);
 
 // Prototypes pour exec.c
-void        wait_for_child(pid_t pid);
-int         execute_command(char **args);
-void        exec_cmd(t_cmd *cmd, char **env);
+void		wait_for_child(pid_t pid);
+int			execute_command(char **args);
+void		exec_cmd(t_cmd *cmd, char **env);
 
 // Prototypes pour exec_builtin.c
-void        execute_builtin(t_cmd *cmd, char **envp);
-void        execute_cd(t_cmd *cmd);
-void        execute_exit(t_cmd *cmd);
-void        execute_echo(t_cmd *cmd);
-void        execute_pwd(void);
-void        execute_env(char **envp);
-void        execute_export(t_cmd *cmd);
-void        execute_unset(t_cmd *cmd);
+void		execute_builtin(t_cmd *cmd, char **envp);
+void		execute_cd(t_cmd *cmd);
+void		execute_exit(t_cmd *cmd);
+void		execute_echo(t_cmd *cmd);
+void		execute_pwd(void);
+void		execute_env(char **envp);
+void		execute_export(t_cmd *cmd);
+void		execute_unset(t_cmd *cmd);
 
 // Prototypes pour heredoc.c
-int         is_delimiter_quoted(char *delimiter, int *quote_type);
-char        *clean_delimiter(char *delimiter);
-char        *expand_heredoc_line(char *line, t_env *env, int quote_type);
-int         handle_heredoc(t_heredoc *hdoc, t_env *env);
-void        heredoc_signal_handler(int sig);
-int         execute_heredoc(t_cmd *cmd, char *delimiter, t_env *env);
-char        *expand_variables(char *line, t_env *env);
+int			is_delimiter_quoted(char *delimiter, int *quote_type);
+char		*clean_delimiter(char *delimiter);
+char		*expand_heredoc_line(char *line, t_env *env, int quote_type);
+int			handle_heredoc(t_heredoc *hdoc, t_env *env);
+void		heredoc_signal_handler(int sig);
+int			execute_heredoc(t_cmd *cmd, char *delimiter, t_env *env);
+char		*expand_variables(char *line, t_env *env);
 
 // Prototypes pour handlers
-int         handle_quotes_count(const char *input, int *i, int *in_quotes, char *quote_char);
-void        handle_quotes_split(const char *input, int *i, char **result, int *j);
-int         handle_redirections_count(const char *input, int *i);
-int         handle_redirections(t_cmd *cmd, char **args, int i);
-char        *split_redirection(char *str, int *i);
+int			handle_quotes_count(const char *input, int *i,
+				int *in_quotes, char *quote_char);
+void		handle_quotes_split(const char *input, int *i,
+				char **result, int *j);
+int			handle_redirections_count(const char *input, int *i);
+int			handle_redirections(t_cmd *cmd, char **args, int i);
+char		*split_redirection(char *str, int *i);
 
 // Prototypes pour split.c
-char        **advanced_split(const char *input);
+char		**advanced_split(const char *input);
 
 // Prototypes pour pipes.c
-void        first_pipe(char **av, int *p_fd, char **env);
-void        second_pipe(char **av, int *p_fd, char **env);
-void        close_pipes(int *p_fd);
-void        execute_pipe_commands(char ***cmds);
+void		first_pipe(char **av, int *p_fd, char **env);
+void		second_pipe(char **av, int *p_fd, char **env);
+void		close_pipes(int *p_fd);
+void		execute_pipe_commands(char ***cmds);
 
 // Prototypes pour signals.c
-void        sigint_handler(int sig);
-void        setup_interactive_signals(void);
-void        setup_execution_signals(void);
-void        restore_default_signals(void);
+void		sigint_handler(int sig);
+void		setup_interactive_signals(void);
+void		setup_execution_signals(void);
+void		restore_default_signals(void);
 
 // Prototypes pour utils.c
-void        free_args(char **args);
-char        *get_cmd_path(char *cmd);
-int         ft_strcmp(const char *s1, const char *s2);
-int         sig_save_handler(int new);
+void		free_args(char **args);
+char		*get_cmd_path(char *cmd);
+int			ft_strcmp(const char *s1, const char *s2);
+int			sig_save_handler(int new);
 int			ft_isspace(int c);
 
 // Add with the other exec prototypes
-void    execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next);
+void		execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next);
+
+// errors
+void		print_error(char *cmd, char *msg);
+void		exit_with_error(char *cmd, char *msg, int exit_code);
+void		handle_exec_error(char *cmd);
 
 #endif
