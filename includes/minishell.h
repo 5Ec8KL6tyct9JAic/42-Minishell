@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 14:11:18 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:43:47 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,5 +145,8 @@ int			ft_isspace(int c);
 
 // Add with the other exec prototypes
 void    execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next);
+
+// Add this with the other prototypes if not already there
+void    print_error(const char *context, const char *message);
 
 #endif

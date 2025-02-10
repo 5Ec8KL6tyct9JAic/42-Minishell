@@ -6,7 +6,7 @@
 #    By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 10:00:31 by tmatis            #+#    #+#              #
-#    Updated: 2025/02/10 13:56:17 by mmouaffa         ###   ########.fr        #
+#    Updated: 2025/02/10 14:45:26 by mmouaffa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,6 @@ SRCS			= signals.c\
 					main.c\
 					redirections.c\
 					builtin.c\
-					error_handling.c\
 					exec/exec_builtin.c\
 					exec/heredoc.c\
 					exec/exec_pipes.c\

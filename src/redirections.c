@@ -6,15 +6,16 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/02/10 14:24:18 by davvaler         ###   ########.fr       */
-=======
-/*   Updated: 2025/02/10 14:08:17 by mmouaffa         ###   ########.fr       */
->>>>>>> 98e6e88e06dde3a061841562140bdb63b6bab0e2
+/*   Updated: 2025/02/10 14:43:47 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdlib.h>
+#include <stddef.h>
+
+// Function prototype for print_error if not already in minishell.h
+void    print_error(const char *context, const char *message);
 
 /*
 ** Ouvre un fichier selon le mode spécifié
