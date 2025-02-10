@@ -6,7 +6,7 @@
 /*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 15:02:06 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:03:27 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,9 +155,9 @@ void		exit_with_error(char *cmd, char *msg, int exit_code);
 void		handle_exec_error(char *cmd);
 
 // Add this with the other prototypes if not already there
-void    print_error(char *context, char *message);
+void		print_error(char *context, char *message);
 
 // Add this with the other handler prototypes
-int     handle_token_redirections(t_cmd *cmd, char **args, int i);
+int			handle_token_redirections(t_cmd *cmd, char **args, int i);
 
 #endif
