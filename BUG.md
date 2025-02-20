@@ -10,6 +10,12 @@ listes non exhautive de tout les bugs de notre minishell
 
 
 
+https://excalidraw.com/#json=aziV953UT0Kgv5u3HYwel,6pyS6PJ_hXCGsmxiCfYq4g
+|
+|
+excalidraw avec l'etat du projet 
+
+
 
 
 

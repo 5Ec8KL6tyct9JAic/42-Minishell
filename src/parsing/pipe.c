@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 13:59:14 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:32:12 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,51 +65,4 @@ char	***split_piped_commands(char **args)
 	}
 	cmds[j] = NULL;
 	return (cmds);
-}
-
-/*
-** Convertit les tokens bruts en tokens finaux
-** @param tokens: tableau de tokens bruts
-** @return: tableau de tokens traités ou NULL en cas d'erreur
-*/
-static	char	**parse_tokens(char **tokens)
-{
-	char	**result;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (tokens[i])
-		i++;
-	result = malloc(sizeof(char *) * (i + 1));
-	if (!result)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (tokens[i])
-	{
-		result[j++] = ft_strdup(tokens[i++]);
-	}
-	result[j] = NULL;
-	return (result);
-}
-
-/*
-** Parse l'entrée utilisateur en tokens
-** @param input: chaîne d'entrée à parser
-** @return: tableau de tokens ou NULL en cas d'erreur
-*/
-char	**parse_input(char *input)
-{
-	char	**tokens;
-	char	**result;
-
-	if (!input)
-		return (NULL);
-	tokens = advanced_split(input);
-	if (!tokens)
-		return (NULL);
-	result = parse_tokens(tokens);
-	free_args(tokens);
-	return (result);
 }

@@ -6,34 +6,11 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:13:56 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 15:09:42 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:33:12 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*
-** Récupère la valeur d'une variable d'environnement
-** @param env: tableau d'environnement
-** @param key: clé à rechercher
-** @return: valeur de la variable ou NULL si non trouvée
-*/
-char	*get_env_var(char **env, const char *key)
-{
-	int		i;
-	size_t	key_len;
-
-	i = 0;
-	if (!env || !key)
-		return (NULL);
-	key_len = ft_strlen(key);
-	while (env[i++] != NULL)
-	{
-		if (ft_strncmp(env[i], key, key_len) == 0 && env[i][key_len] == '=')
-			return (&env[i][key_len + 1]);
-	}
-	return (NULL);
-}
 
 /*
 ** Met à jour une variable d'environnement existante
@@ -42,18 +19,18 @@ char	*get_env_var(char **env, const char *key)
 ** @param new_var: nouvelle valeur complète (key=value)
 ** @return: 0 si succès, -1 si erreur
 */
-int	handle_existing_var(char ***env, const char *key, char *new_var)
+int	handle_existing_var(t_env *env, const char *key, char *new_var)
 {
 	int	i;
 
 	i = -1;
-	while ((*env)[++i])
+	while (env->env[++i])
 	{
-		if (ft_strncmp((*env)[i], key, ft_strlen(key)) == 0
-			&& (*env)[i][ft_strlen(key)] == '=')
+		if (ft_strncmp(env->env[i], key, ft_strlen(key)) == 0
+			&& env->env[i][ft_strlen(key)] == '=')
 		{
-			free((*env)[i]);
-			(*env)[i] = new_var;
+			free(env->env[i]);
+			env->env[i] = new_var;
 			return (0);
 		}
 	}
@@ -67,7 +44,7 @@ int	handle_existing_var(char ***env, const char *key, char *new_var)
 ** @param value: valeur à associer
 ** @return: 0 si succès, -1 si erreur
 */
-int	set_env_var(char ***env, const char *key, const char *value)
+int	set_env_var(t_env *env, const char *key, const char *value)
 {
 	int		env_size;
 	char	*new_var;
@@ -82,7 +59,7 @@ int	set_env_var(char ***env, const char *key, const char *value)
 	if (update_env_var(env, key, new_var))
 		return (0);
 	env_size = 0;
-	while ((*env)[env_size])
+	while (env->env[env_size])
 		env_size++;
 	new_env = malloc(sizeof(char *) * (env_size + 2));
 	if (!new_env)
@@ -92,7 +69,7 @@ int	set_env_var(char ***env, const char *key, const char *value)
 	}
 	new_env[env_size] = new_var;
 	new_env[env_size + 1] = NULL;
-	*env = new_env;
+	env->env = new_env;
 	return (0);
 }
 
@@ -102,7 +79,7 @@ int	set_env_var(char ***env, const char *key, const char *value)
 ** @param key: clé à supprimer
 ** @return: 0 si succès, -1 si erreur
 */
-int	unset_env_var(char ***env, const char *key)
+int	unset_env_var(t_env *env, const char *key)
 {
 	int	j;
 	int	i;
@@ -110,15 +87,15 @@ int	unset_env_var(char ***env, const char *key)
 	i = 0;
 	if (!env || !key)
 		return (-1);
-	while ((*env)[i++] != NULL)
+	while (env->env[i++] != NULL)
 	{
-		if (ft_strncmp((*env)[i], key, ft_strlen(key)) == 0 && (*env)
+		if (ft_strncmp(env->env[i], key, ft_strlen(key)) == 0 && env->env
 			[i][ft_strlen(key)] == '=')
 		{
-			free((*env)[i]);
+			free(env->env[i]);
 			j = i;
-			while ((*env)[j++] != NULL)
-				(*env)[j] = (*env)[j + 1];
+			while (env->env[j++] != NULL)
+				env->env[j] = env->env[j + 1];
 			return (0);
 		}
 	}
@@ -132,19 +109,19 @@ int	unset_env_var(char ***env, const char *key)
 ** @param new_var: new value in format "KEY=VALUE"
 ** @return: 0 on success, -1 on failure
 */
-int    update_env_var(char ***env, const char *key, char *new_var)
+int    update_env_var(t_env *env, const char *key, char *new_var)
 {
     int     i;
     size_t  key_len;
 
     i = 0;
     key_len = ft_strlen(key);
-    while ((*env)[i])
+    while (env->env[i])
     {
-        if (ft_strncmp((*env)[i], key, key_len) == 0 && (*env)[i][key_len] == '=')
+        if (ft_strncmp(env->env[i], key, key_len) == 0 && env->env[i][key_len] == '=')
         {
-            free((*env)[i]);
-            (*env)[i] = new_var;
+            free(env->env[i]);
+            env->env[i] = new_var;
             return (0);
         }
         i++;

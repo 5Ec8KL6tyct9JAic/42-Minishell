@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:36:18 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 14:07:07 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:30:52 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,33 +60,6 @@ char	*clean_delimiter(char *delimiter)
 		return (clean);
 	}
 	return (ft_strdup(delimiter));
-}
-
-char	*expand_variables(char *line, t_env *env)
-{
-	char	*expanded;
-	char	*var_name;
-	char	*var_value;
-	int		i;
-
-	expanded = ft_strdup("");
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '$' && line[i + 1] && !ft_isspace(line[i + 1]))
-		{
-			i++;
-			var_name = extract_var_name(&line[i]);
-			var_value = get_env_var(env->env, var_name);
-			if (var_value)
-				expanded = ft_strjoin_free(expanded, var_value);
-			i += ft_strlen(var_name);
-			free(var_name);
-		}
-		else
-			expanded = ft_strjoin_char(expanded, line[i++]);
-	}
-	return (expanded);
 }
 
 char	*expand_heredoc_line(char *line, t_env *env, int quote_type)

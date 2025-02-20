@@ -6,23 +6,12 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 15:12:52 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:53:24 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stdlib.h>
-#include <stddef.h>
+#include "../../includes/minishell.h"
 
-// Function prototype for print_error if not already in minishell.h
-void    print_error(char *context, char *message);
-
-/*
-** Ouvre un fichier selon le mode spécifié
-** @param filename: nom du fichier à ouvrir
-** @param mode: mode d'ouverture (>, >>, <)
-** @return: descripteur de fichier ou -1 en cas d'erreur
-*/
 static int	open_file(char *filename, char *mode)
 {
 	if (ft_strcmp(mode, ">") == 0)
@@ -34,14 +23,6 @@ static int	open_file(char *filename, char *mode)
 	return (-1);
 }
 
-/*
-** Gère une redirection individuelle
-** @param args: tableau d'arguments
-** @param i: index de la redirection
-** @param in_fd: pointeur vers le descripteur d'entrée
-** @param out_fd: pointeur vers le descripteur de sortie
-** @return: 0 si succès, -1 si erreur
-*/
 static int	handle_redirection(char **args, int i, int *in_fd, int *out_fd)
 {
 	int	fd;

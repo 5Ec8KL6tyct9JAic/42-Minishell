@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_buuiltin_helper.c                             :+:      :+:    :+:   */
+/*   exec_builtin_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:34:04 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/07 11:34:31 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:33:29 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	execute_env(char **envp)
+void	execute_env(t_env *env)
 {
 	int	i;
 
 	i = 0;
-	while (envp[i])
-		printf("%s\n", envp[i++]);
+	while (env->env[i])
+		printf("%s\n", env->env[i++]);
 }
 
 void	execute_export(t_cmd *cmd)

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:58:54 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 14:05:13 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:33:02 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** @param cmd: structure de commande à exécuter
 ** @param envp: environnement
 */
-void	execute_builtin(t_cmd *cmd, char **envp)
+void	execute_builtin(t_cmd *cmd, t_env *env)
 {
 	if (!cmd->args[0])
 		return ;
@@ -30,7 +30,7 @@ void	execute_builtin(t_cmd *cmd, char **envp)
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		execute_pwd();
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
-		execute_env(envp);
+		execute_env(env);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		execute_export(cmd);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)

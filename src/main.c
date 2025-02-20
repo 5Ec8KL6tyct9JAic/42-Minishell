@@ -6,11 +6,11 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:42:56 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 14:46:34 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:51:12 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 /*
 ** Libère la mémoire allouée pour un tableau de commandes
@@ -55,17 +55,16 @@ static t_env *init_shell_env(char **env)
 ** @param input: ligne de commande parsée
 ** @param env: environnement du shell
 */
-static	void	execute_command_line(char **args, t_env *env)
+static	void	execute_command_line(t_cmd *cmd, t_env *env)
 {
 	char	***piped_cmds;
-	t_cmd	cmd;
 
-	if (!args || !args[0])
+	if (!cmd->args || !cmd->args[0])
 		return ;
 	// Si la commande contient des pipes
-	if (count_pipes(args) > 0)
+	if (count_pipes(cmd->args) > 0)
 	{
-		piped_cmds = split_piped_commands(args);
+		piped_cmds = split_piped_commands(cmd->args);
 		if (piped_cmds)
 		{
 			execute_pipe_commands(piped_cmds);
@@ -75,11 +74,10 @@ static	void	execute_command_line(char **args, t_env *env)
 	// Sinon, exécute une commande simple
 	else
 	{
-		init_cmd(&cmd, args[0]);
-		if (cmd.is_builtin)
-			execute_builtin(&cmd, env->env);
+		if (cmd->is_builtin)
+			execute_builtin(&cmd, env);
 		else
-			exec_cmd(&cmd, env->env);
+			exec_cmd(&cmd, env);
 	}
 }
 
@@ -88,10 +86,9 @@ static	void	execute_command_line(char **args, t_env *env)
 ** @param env: environnement système
 ** @return: code de sortie du shell
 */
-static	int	shell_loop(t_env *env)
+static	int	shell_loop(t_env *env, t_cmd *cmd)
 {
 	char	*input;
-	char	**args;
 
 	while (1)
 	{
@@ -104,13 +101,12 @@ static	int	shell_loop(t_env *env)
 		}
 		if (*input)
 			add_history(input);
-		args = parse_input(input);
+		init_cmd(cmd, input, env);
 		free(input);
-
-		if (args)
+		if (cmd->args)
 		{
-			execute_command_line(args, env);
-			free_args(args);
+			execute_command_line(cmd, env);
+			free_args(cmd->args);
 		}
 	}
 	return (env->exit_status);
@@ -119,21 +115,19 @@ static	int	shell_loop(t_env *env)
 int	main(int ac, char **av, char **env)
 {
 	t_env	*shell_env;
+	t_cmd	*cmd;
 	int		exit_status;
 
 	(void)ac;
 	(void)av;
-
-	// Initialisation de l'environnement
+	cmd = malloc(sizeof(t_cmd));
+	init_cmd(cmd, NULL, NULL);
 	shell_env = init_shell_env(env);
 	if (!shell_env)
 		return (1);
 
-	// Configuration des signaux
-	setup_interactive_signals();
-
 	// Boucle principale
-	exit_status = shell_loop(shell_env);
+	exit_status = shell_loop(shell_env, cmd);
 
 	// Nettoyage
 	free(shell_env);

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:45:41 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 15:12:29 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:22:35 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** @param env: environment variables
 ** @return: full path or NULL if not found
 */
-static char *get_path(const char *cmd_name, char **env)
+static char *get_path(const char *cmd_name, t_env *env)
 {
 	char    *path_env;
 	char    **paths;
@@ -53,7 +53,7 @@ static char *get_path(const char *cmd_name, char **env)
 ** @param cmd: structure de commande à exécuter
 ** @param env: environnement
 */
-void    exec_external_cmd(t_cmd *cmd, char **env)
+void    exec_external_cmd(t_cmd *cmd, t_env *env)
 {
 	char	*path_to_cmd;
 
@@ -65,7 +65,7 @@ void    exec_external_cmd(t_cmd *cmd, char **env)
 			handle_error(cmd->args[0], "command not found", ERR_CMD_NOT_FOUND);
 			exit(127);
 		}
-		if (execve(path_to_cmd, cmd->args, env) == -1)
+		if (execve(path_to_cmd, cmd->args, env->env) == -1)
 		{
 			perror("execve");
 			free(path_to_cmd);
@@ -83,7 +83,7 @@ void    exec_external_cmd(t_cmd *cmd, char **env)
 ** @param cmd: structure de commande à exécuter
 ** @param env: environnement
 */
-void	exec_cmd(t_cmd *cmd, char **env)
+void	exec_cmd(t_cmd *cmd, t_env *env)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return;

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 15:22:17 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:15:31 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@
 */
 typedef struct s_env
 {
-	char	**env;// Variables d'environnement
-	int		exit_status;// Code de sortie
+	char	**env;
+	int		exit_status;
 }	t_env;
 
 typedef struct s_heredoc
@@ -62,9 +62,11 @@ typedef struct s_heredoc
 typedef struct s_cmd
 {
 	char		**args;
+	char		*options;
 	char		*input_redirection;
 	char		*output_redirection;
 	char		*path;
+	t_env		*env;
 	int			is_builtin;
 	int			input_fd;
 	int			output_fd;
@@ -73,8 +75,26 @@ typedef struct s_cmd
 
 // Prototypes pour init.c
 void		init_shell(void);
-void		init_cmd(t_cmd *cmd, char *input);
+void		init_cmd(t_cmd *cmd, char *input, t_env *env);
 void		free_cmd(t_cmd *cmd);
+int			is_quote(char input);
+
+// Prototypes pour parse_command.c
+void		parse_command(const char *input, t_cmd *cmd);
+void		handle_env_var(const char **input, char **args, int *i, t_env *env);
+void		handle_quotes(char *input, t_cmd *cmd, int i);
+char		*handle_double_quotes_content(char *input, t_env *env);
+void		handle_single_quotes(char *input, t_cmd *cmd, int i);
+void 		handle_flags_and_args(const char **input, char **args, int *i, int *in_arg);
+
+// Prototypes pour env_utils.c
+char		*get_env_var(t_env *env, const char *var_name);
+char		*get_env_value(char *input, int *i, t_env *env);
+char        *expand_variables(char *line, t_env *env);
+void		expand_env_vars(t_cmd *cmd);
+
+// Prototypes pour builtins.c
+int			is_builtin(char *cmd);
 
 // Prototypes pour parser.c
 int			count_pipes(char **args);
@@ -86,24 +106,23 @@ void		handle_error(const char *context,
 				const char *target, int error_code);
 
 // Prototypes pour env.c
-char		*get_env_var(char **env, const char *key);
-int			handle_existing_var(char ***env, const char *key, char *new_var);
-int			set_env_var(char ***env, const char *key, const char *value);
-int			unset_env_var(char ***env, const char *key);
-int			update_env_var(char ***env, const char *key, char *new_var);
+int			handle_existing_var(t_env *env, const char *key, char *new_var);
+int			set_env_var(t_env *env, const char *key, const char *value);
+int			unset_env_var(t_env *env, const char *key);
+int			update_env_var(t_env *env, const char *key, char *new_var);
 
 // Prototypes pour exec.c
 void		wait_for_child(pid_t pid);
 int			execute_command(char **args);
-void		exec_cmd(t_cmd *cmd, char **env);
+void		exec_cmd(t_cmd *cmd, t_env *env);
 
 // Prototypes pour exec_builtin.c
-void		execute_builtin(t_cmd *cmd, char **envp);
+void		execute_builtin(t_cmd *cmd, t_env *env);
 void		execute_cd(t_cmd *cmd);
 void		execute_exit(t_cmd *cmd);
 void		execute_echo(t_cmd *cmd);
 void		execute_pwd(void);
-void		execute_env(char **envp);
+void		execute_env(t_env *env);
 void		execute_export(t_cmd *cmd);
 void		execute_unset(t_cmd *cmd);
 
@@ -146,6 +165,7 @@ char		*get_cmd_path(char *cmd);
 int			ft_strcmp(const char *s1, const char *s2);
 int			sig_save_handler(int new);
 int			ft_isspace(int c);
+char 		**ft_realloc(char **args, int size);
 
 // Add with the other exec prototypes
 void		execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next);
