@@ -6,36 +6,40 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:31:51 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/19 18:14:27 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:31:04 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	init_cmd(t_cmd *cmd, char *input, t_env *env)
+void init_cmd(t_cmd *cmd, char *input, t_env *env)
 {
-	// 1. Initialisation de la structure
+    // 1. Initialisation de la structure
     cmd->env = env;
-	cmd->options = NULL;
-	cmd->input_redirection = NULL;
-	cmd->output_redirection = NULL;
-	cmd->path = NULL;
-	cmd->input_fd = STDIN_FILENO;
-	cmd->output_fd = STDOUT_FILENO;
-	cmd->heredoc = NULL;
+    cmd->args = NULL;  // Initialiser à NULL
+    cmd->options = NULL;
+    cmd->input_redirection = NULL;
+    cmd->output_redirection = NULL;
+    cmd->path = NULL;
+    cmd->input_fd = STDIN_FILENO;
+    cmd->output_fd = STDOUT_FILENO;
+    cmd->heredoc = NULL;
 
-	// 2. Parsing initial de l'input
-	if (!input || !*input)
-		return ;
-	parse_command((const char *)input, cmd);
-	if (!cmd->args || !cmd->args[0])
-		return ;
+    // 2. Parsing initial de l'input
+    if (!input || !*input)
+        return;
+    parse_command((const char *)input, cmd);
+    if (!cmd->args || !cmd->args[0])
+        return;
 
-	// 3. Post-processing des arguments
-	expand_env_vars(cmd);
-	
-	// 4. Identification du type de commande
-	cmd->is_builtin = is_builtin(cmd->args[0]);
+    // 3. Post-processing des arguments
+    expand_env_vars(cmd);
+    
+    // 4. Identification du type de commande
+    if (cmd->args && cmd->args[0])
+        cmd->is_builtin = is_builtin(cmd->args[0]);
+    else
+        cmd->is_builtin = 0;
 }
 
 int	is_builtin(char *cmd)

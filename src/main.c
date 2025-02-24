@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:42:56 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/20 15:51:12 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:27:51 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ static	void	execute_command_line(t_cmd *cmd, t_env *env)
 	else
 	{
 		if (cmd->is_builtin)
-			execute_builtin(&cmd, env);
+			execute_builtin(cmd, env);
 		else
-			exec_cmd(&cmd, env);
+			exec_cmd(cmd, env);
 	}
 }
 

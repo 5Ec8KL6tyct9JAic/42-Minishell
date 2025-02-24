@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/20 16:15:31 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:33:26 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void		parse_command(const char *input, t_cmd *cmd);
 void		handle_env_var(const char **input, char **args, int *i, t_env *env);
 void		handle_quotes(char *input, t_cmd *cmd, int i);
 char		*handle_double_quotes_content(char *input, t_env *env);
-void		handle_single_quotes(char *input, t_cmd *cmd, int i);
+void 		handle_single_quotes(const char **input, char **args, int *i);
 void 		handle_flags_and_args(const char **input, char **args, int *i, int *in_arg);
 
 // Prototypes pour env_utils.c

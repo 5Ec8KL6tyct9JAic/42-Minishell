@@ -6,7 +6,7 @@
 #    By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 10:00:31 by tmatis            #+#    #+#              #
-#    Updated: 2025/02/19 17:56:17 by mmouaffa         ###   ########.fr        #
+#    Updated: 2025/02/24 16:25:34 by mmouaffa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,8 +46,8 @@ SRCS			= signals.c\
 					init/ft_realloc.c\
 					init/init.c\
 					parsing/command_parse.c\
-					parsing/parser.c\
 					redirections.c\
+					parsing/pipe.c\
 					exec/exec_builtin.c\
 					exec/heredoc.c\
 					exec/exec_pipes.c\
