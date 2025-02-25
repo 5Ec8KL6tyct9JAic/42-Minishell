@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/19 17:52:50 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:16:05 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 void	sigint_handler(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
-	write(1, "\nminishell> ", 12);
+	rl_on_new_line();
+	write(1, "\n", 1);
+	rl_redisplay(); 
 }
 
 void	setup_interactive_signals(void)

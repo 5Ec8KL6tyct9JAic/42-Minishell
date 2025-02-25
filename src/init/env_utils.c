@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:00:00 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/24 16:31:26 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:19:40 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void expand_env_vars(t_cmd *cmd)
 				in_single_quote = !in_single_quote;
 			else if (cmd->args[i][j] == '"')
 				in_double_quote = !in_double_quote;
-			else if (cmd->args[i][j] == '$' && !in_single_quote)
+			if (cmd->args[i][j + 1] == '$' && !in_single_quote)
 			{
 				tmp = expand_variables(cmd->args[i], cmd->env);
 				if (tmp)

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:42:56 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/24 16:27:51 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:48:22 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,19 @@ static	void	execute_command_line(t_cmd *cmd, t_env *env)
 		if (cmd->is_builtin)
 			execute_builtin(cmd, env);
 		else
-			exec_cmd(cmd, env);
+			exec_external_cmd(cmd, env);
+	}
+}
+
+static void	ft_print_tab(char **ta)
+{
+	int	i;
+
+	i = 0;
+	while (ta[i])
+	{
+		printf("tab[%d] = %s\n", i, ta[i]);
+		i++;
 	}
 }
 
@@ -102,6 +114,8 @@ static	int	shell_loop(t_env *env, t_cmd *cmd)
 		if (*input)
 			add_history(input);
 		init_cmd(cmd, input, env);
+		if (DEBUG_MODE)
+			ft_print_tab(cmd->args);
 		free(input);
 		if (cmd->args)
 		{

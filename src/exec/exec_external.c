@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:45:41 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/19 17:22:35 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:13:35 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,46 +53,44 @@ static char *get_path(const char *cmd_name, t_env *env)
 ** @param cmd: structure de commande à exécuter
 ** @param env: environnement
 */
-void    exec_external_cmd(t_cmd *cmd, t_env *env)
+void exec_external_cmd(t_cmd *cmd, t_env *env)
 {
-	char	*path_to_cmd;
+    char *path_to_cmd;
+    pid_t pid;
+    int status;
 
-	if (cmd->args && cmd->args[0])
-	{
-		path_to_cmd = get_path(cmd->args[0], env);
-		if (!path_to_cmd)
-		{
-			handle_error(cmd->args[0], "command not found", ERR_CMD_NOT_FOUND);
-			exit(127);
-		}
-		if (execve(path_to_cmd, cmd->args, env->env) == -1)
-		{
-			perror("execve");
-			free(path_to_cmd);
-			handle_error(cmd->args[0], "execution failed", ERR_EXEC_FAILED);
-			exit(126);
-		}
-		free(path_to_cmd);
-	}
-	else
-		exit(0);
-}
-
-/*
-** Fonction principale d'exécution des commandes
-** @param cmd: structure de commande à exécuter
-** @param env: environnement
-*/
-void	exec_cmd(t_cmd *cmd, t_env *env)
-{
-	if (!cmd || !cmd->args || !cmd->args[0])
-		return;
-
-	if (cmd->is_builtin)
-		execute_builtin(cmd, env);
-	else
-		exec_external_cmd(cmd, env);
-
-	free_args(cmd->args);
-	cmd->args = NULL;
+    if (cmd->args && cmd->args[0])
+    {
+        pid = fork();
+        if (pid == 0) // Processus enfant
+        {
+            path_to_cmd = get_path(cmd->args[0], env);
+            if (!path_to_cmd)
+            {
+                handle_error(cmd->args[0], "command not found", ERR_CMD_NOT_FOUND);
+                exit(127);
+            }
+            if (execve(path_to_cmd, cmd->args, env->env) == -1)
+            {
+                perror("execve");
+                free(path_to_cmd);
+                handle_error(cmd->args[0], "execution failed", ERR_EXEC_FAILED);
+                exit(126);
+            }
+            free(path_to_cmd);
+        }
+        else if (pid > 0) // Processus parent
+        {
+            waitpid(pid, &status, 0); // Attendre la fin du processus enfant
+        }
+        else
+        {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        exit(0);
+    }
 }
