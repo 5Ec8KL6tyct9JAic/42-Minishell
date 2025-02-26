@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:31:51 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/24 16:31:04 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:34:21 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void init_cmd(t_cmd *cmd, char *input, t_env *env)
 {
-    // 1. Initialisation de la structure
     cmd->env = env;
-    cmd->args = NULL;  // Initialiser à NULL
+    cmd->args = NULL;
     cmd->options = NULL;
     cmd->input_redirection = NULL;
     cmd->output_redirection = NULL;
@@ -24,18 +23,12 @@ void init_cmd(t_cmd *cmd, char *input, t_env *env)
     cmd->input_fd = STDIN_FILENO;
     cmd->output_fd = STDOUT_FILENO;
     cmd->heredoc = NULL;
-
-    // 2. Parsing initial de l'input
     if (!input || !*input)
         return;
     parse_command((const char *)input, cmd);
     if (!cmd->args || !cmd->args[0])
         return;
-
-    // 3. Post-processing des arguments
     expand_env_vars(cmd);
-    
-    // 4. Identification du type de commande
     if (cmd->args && cmd->args[0])
         cmd->is_builtin = is_builtin(cmd->args[0]);
     else

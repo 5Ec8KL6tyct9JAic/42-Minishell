@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/19 17:53:24 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:08:09 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,41 +91,70 @@ static char	**clean_args(char **args)
 	return (new_args);
 }
 
+/*
+** Exécute une commande avec gestion des redirections en utilisant `execve`
+*/
 void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 {
-	int		input_fd;
-	int		output_fd;
+	int		input_fd = -1;
+	int		output_fd = -1;
 	char	**args_clean;
+	char	*cmd_path;
 	pid_t	pid;
 	(void)has_next;
 
-	input_fd = -1;
-	output_fd = -1;
+	// Gestion des redirections
 	if (parse_redirections_exec(cmd->args, &input_fd, &output_fd) == -1)
 		return ;
+	
+	// Nettoyage des arguments (suppression des opérateurs de redirection)
 	args_clean = clean_args(cmd->args);
 	if (!args_clean || !args_clean[0])
 		return (free(args_clean));
+
+	// Récupérer le chemin absolu de la commande
+	cmd_path = get_path(args_clean[0], cmd->env);
+	if (!cmd_path)
+	{
+		fprintf(stderr, "minishell: %s: command not found\n", args_clean[0]);
+		free(args_clean);
+		exit(127);
+	}
+
+	// Fork du processus pour exécuter la commande
 	pid = fork();
 	if (pid == -1)
-		return (perror("fork"));
-	if (pid == 0)
+	{
+		perror("fork");
+		free(cmd_path);
+		free(args_clean);
+		return;
+	}
+	if (pid == 0) // Processus enfant
 	{
 		restore_default_signals();
+
+		// Redirection des entrées/sorties
 		if (input_fd != -1)
 			dup2(input_fd, STDIN_FILENO);
 		else if (prev_fd != -1)
 			dup2(prev_fd, STDIN_FILENO);
 		if (output_fd != -1)
 			dup2(output_fd, STDOUT_FILENO);
-		execvp(args_clean[0], args_clean);
-		perror("execvp");
+
+		// Exécute la commande avec execve
+		execve(cmd_path, args_clean, cmd->env->env);
+		perror("execve"); // Si execve échoue
 		exit(127);
 	}
+
+	// Fermeture des fichiers dans le processus parent
 	if (input_fd != -1)
 		close(input_fd);
 	if (output_fd != -1)
 		close(output_fd);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, NULL, 0); // Attend la fin du processus enfant
+
+	free(cmd_path);
 	free(args_clean);
 }

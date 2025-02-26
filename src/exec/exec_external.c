@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:45:41 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/25 15:13:35 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:07:39 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** @param env: environment variables
 ** @return: full path or NULL if not found
 */
-static char *get_path(const char *cmd_name, t_env *env)
+char *get_path(const char *cmd_name, t_env *env)
 {
 	char    *path_env;
 	char    **paths;

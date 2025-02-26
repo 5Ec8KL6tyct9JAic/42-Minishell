@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:40:00 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/25 16:16:22 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:39:48 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,9 @@ void parse_command(const char *input, t_cmd *cmd)
         if (input[i] == '|' || input[i] == '<' || input[i] == '>')
         {
             len = 1;
+            if ((input[i] == '<' && input[i + 1] == '<') || (input
+                [i] == '>' && input[i + 1] == '>'))
+                len++;
             token = ft_substr(input, i, len);
             if (!token)
                 return;

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/25 16:49:00 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:34:32 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # include <curses.h>
 # include <term.h>
 
-# define DEBUG_MODE 0
+# define DEBUG_MODE 1
 # define ERR_CMD_NOT_FOUND        0
 # define ERR_PERMISSION_DENIED    1
 # define ERR_NO_SUCH_FILE         2
@@ -115,6 +115,7 @@ int			update_env_var(t_env *env, const char *key, char *new_var);
 // Prototypes pour exec.c
 void		wait_for_child(pid_t pid);
 int			execute_command(char **args);
+char 		*get_path(const char *cmd_name, t_env *env);
 void    	exec_external_cmd(t_cmd *cmd, t_env *env);
 
 // Prototypes pour exec_builtin.c
