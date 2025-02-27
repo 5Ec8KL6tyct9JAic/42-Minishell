@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/26 15:08:09 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:48:27 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,6 @@ static char	**clean_args(char **args)
 	return (new_args);
 }
 
-/*
-** Exécute une commande avec gestion des redirections en utilisant `execve`
-*/
 void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 {
 	int		input_fd = -1;
@@ -101,18 +98,17 @@ void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 	char	**args_clean;
 	char	*cmd_path;
 	pid_t	pid;
-	(void)has_next;
 
-	// Gestion des redirections
+	(void)has_next;
 	if (parse_redirections_exec(cmd->args, &input_fd, &output_fd) == -1)
 		return ;
 	
-	// Nettoyage des arguments (suppression des opérateurs de redirection)
+	// 2. Nettoyage des arguments (supprime les tokens redirection)
 	args_clean = clean_args(cmd->args);
 	if (!args_clean || !args_clean[0])
 		return (free(args_clean));
 
-	// Récupérer le chemin absolu de la commande
+	// 3. Récupérer le chemin absolu de la commande
 	cmd_path = get_path(args_clean[0], cmd->env);
 	if (!cmd_path)
 	{
@@ -121,7 +117,7 @@ void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 		exit(127);
 	}
 
-	// Fork du processus pour exécuter la commande
+	// 4. Fork du processus pour exécuter la commande
 	pid = fork();
 	if (pid == -1)
 	{
@@ -148,7 +144,7 @@ void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 		exit(127);
 	}
 
-	// Fermeture des fichiers dans le processus parent
+	// 5. Fermeture des fichiers dans le processus parent
 	if (input_fd != -1)
 		close(input_fd);
 	if (output_fd != -1)
@@ -157,4 +153,20 @@ void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 
 	free(cmd_path);
 	free(args_clean);
+}
+
+int	has_redirection(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+	{
+		if (ft_strcmp(args[i], ">") == 0
+			|| ft_strcmp(args[i], ">>") == 0
+			|| ft_strcmp(args[i], "<") == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:00:00 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/25 17:19:40 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:36:46 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,80 +48,118 @@ char	*get_env_value(char *input, int *i, t_env *env)
 	return (ft_strdup(""));
 }
 
-char *expand_variables(char *input, t_env *env)
+char	*expand_variables(char *input, t_env *env)
 {
-    char *result = NULL;
-    char *expanded = NULL;
-    char *temp = NULL;
-    int i = 0;
-    int start = 0;
-    
-    if (!input || !env->env)
-        return (NULL);
-    
-    result = ft_strdup("");
-    if (!result)
-        return (NULL);
-    
-    while (input[i])
-    {
-        if (input[i] == '$' && input[i + 1] && !ft_isspace(input[i + 1]) && 
-            (ft_isalnum(input[i + 1]) || input[i + 1] == '_'))
-        {
-            // Ajouter tout le texte avant le $ au résultat
-            if (i > start)
-            {
-                temp = ft_substr(input, start, i - start);
-                if (!temp)
-                {
-                    free(result);
-                    return (NULL);
-                }
-                
-                char *old_result = result;
-                result = ft_strjoin(result, temp);
-                free(old_result);
-                free(temp);
-                
-                if (!result)
-                    return (NULL);
-            }
-            
-            expanded = get_env_value(input, &i, env);
-            if (!expanded)
-            {
-                free(result);
-                return (NULL);
-            }
-            
-            // Concaténer avec le résultat
-            temp = result;
-            result = ft_strjoin(result, expanded);
-            free(temp);
-            free(expanded);
-            
-            if (!result)
-                return (NULL);
-            
-            start = i;
-        }
-        else
-            i++;
-    }
-    
-    // Ajouter le reste de la chaîne
-    if (input[start])
-    {
-        temp = result;
-        result = ft_strjoin(result, input + start);
-        free(temp);
-        
-        if (!result)
-            return (NULL);
-    }
-    
-    return (result);
+	char	*result;
+	char	*temp;
+	int		i;
+	int		start;
+
+	if (!input || !env->env)
+		return (NULL);
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	i = 0;
+	start = 0;
+	while (input[i])
+	{
+		if (input[i] == '$')
+		{
+			/* Détecter la séquence "$?" */
+			if (input[i + 1] && input[i + 1] == '?')
+			{
+				/* Ajouter la portion avant le "$" */
+				if (i > start)
+				{
+					temp = ft_substr(input, start, i - start);
+					if (!temp)
+					{
+						free(result);
+						return (NULL);
+					}
+					{
+						char *old = result;
+						result = ft_strjoin(result, temp);
+						free(old);
+					}
+					free(temp);
+				}
+				/* Convertir g_exit_status en chaîne et l'ajouter */
+				temp = ft_itoa(g_exit_status);
+				if (!temp)
+				{
+					free(result);
+					return (NULL);
+				}
+				{
+					char *old = result;
+					result = ft_strjoin(result, temp);
+					free(old);
+				}
+				free(temp);
+				i += 2;
+				start = i;
+				continue;
+			}
+			/* Cas général pour l'expansion des autres variables */
+			/* On suppose que get_env_value gère la lecture de la variable */
+			if (input[i + 1] && !ft_isspace(input[i + 1]) &&
+				(ft_isalnum(input[i + 1]) || input[i + 1] == '_'))
+			{
+				/* Ajouter le texte avant le '$' */
+				if (i > start)
+				{
+					temp = ft_substr(input, start, i - start);
+					if (!temp)
+					{
+						free(result);
+						return (NULL);
+					}
+					{
+						char *old = result;
+						result = ft_strjoin(result, temp);
+						free(old);
+					}
+					free(temp);
+				}
+				temp = get_env_value(input, &i, env);
+				if (!temp)
+				{
+					free(result);
+					return (NULL);
+				}
+				{
+					char *old = result;
+					result = ft_strjoin(result, temp);
+					free(old);
+				}
+				free(temp);
+				start = i;
+				continue;
+			}
+		}
+		i++;
+	}
+	/* Ajouter la portion restante de la chaîne */
+	if (input[start])
+	{
+		temp = ft_substr(input, start, i - start);
+		if (!temp)
+		{
+			free(result);
+			return (NULL);
+		}
+		{
+			char *old = result;
+			result = ft_strjoin(result, temp);
+			free(old);
+		}
+		free(temp);
+	}
+	return (result);
 }
+
 
 void expand_env_vars(t_cmd *cmd)
 {
@@ -145,14 +183,15 @@ void expand_env_vars(t_cmd *cmd)
 				in_single_quote = !in_single_quote;
 			else if (cmd->args[i][j] == '"')
 				in_double_quote = !in_double_quote;
-			if (cmd->args[i][j + 1] == '$' && !in_single_quote)
+			if ((cmd->args[i][j + 1] == '$' && !in_single_quote) || (cmd
+                ->args[i][j] == '$' && !in_double_quote && !in_single_quote))
 			{
 				tmp = expand_variables(cmd->args[i], cmd->env);
 				if (tmp)
 				{
 					free(cmd->args[i]);
 					cmd->args[i] = tmp;
-					break;
+					break ;
 				}
 			}
 			j++;

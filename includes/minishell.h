@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/26 15:34:32 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:48:35 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # include <curses.h>
 # include <term.h>
 
-# define DEBUG_MODE 1
+# define DEBUG_MODE 0
 # define ERR_CMD_NOT_FOUND        0
 # define ERR_PERMISSION_DENIED    1
 # define ERR_NO_SUCH_FILE         2
@@ -41,6 +41,7 @@
 # define ERR_NUMERIC_ARG_REQUIRED 4
 # define ERR_INVALID_VAR          5
 # define ERR_CMD_EXEC             6
+extern int g_exit_status;
 
 /*
 ** Structure pour l'environnement du shell
@@ -117,6 +118,7 @@ void		wait_for_child(pid_t pid);
 int			execute_command(char **args);
 char 		*get_path(const char *cmd_name, t_env *env);
 void    	exec_external_cmd(t_cmd *cmd, t_env *env);
+int			has_redirection(char **args);
 
 // Prototypes pour exec_builtin.c
 void		execute_builtin(t_cmd *cmd, t_env *env);
@@ -136,6 +138,8 @@ int			handle_heredoc(t_heredoc *hdoc, t_env *env);
 void		heredoc_signal_handler(int sig);
 int			execute_heredoc(t_cmd *cmd, char *delimiter, t_env *env);
 char		*expand_variables(char *line, t_env *env);
+void		init_heredoc(t_cmd *cmd);
+char 		**remove_heredoc_tokens(char **args);
 
 // Prototypes pour handlers
 int			handle_quotes_count(const char *input, int *i,
@@ -168,6 +172,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 int			sig_save_handler(int new);
 int			ft_isspace(int c);
 char 		**ft_realloc(char **args, int size);
+char*   	remove_quotes(char* str);
 
 // Add with the other exec prototypes
 void		execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next);

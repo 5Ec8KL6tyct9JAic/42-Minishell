@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/19 17:56:41 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:55:24 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,19 @@ char    *get_cmd_path(char *cmd)
     }
     free_args(paths);
     return (NULL);
+}
+
+char*   remove_quotes(char* str)
+{
+    int len;
+    
+    len = ft_strlen(str);
+    if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"') || (str
+        [0] == '\'' && str[len - 1] == '\'')))
+    {
+        str[len - 1] = '\0';
+        return (str + 1);
+    }
+    
+    return (str);
 }

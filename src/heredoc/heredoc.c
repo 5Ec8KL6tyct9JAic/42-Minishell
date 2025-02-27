@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:36:18 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/19 17:30:52 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:07:53 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,6 @@ int	handle_heredoc(t_heredoc *hdoc, t_env *env)
 	clean_delim = clean_delimiter(hdoc->delimiter);
 	ret = read_heredoc_lines(hdoc, clean_delim, env, quote_type);
 	free(clean_delim);
-	close(hdoc->pipe_fd[1]);
+	close(hdoc->pipe_fd[1]);  /* On ferme le côté écriture */
 	return (ret);
 }

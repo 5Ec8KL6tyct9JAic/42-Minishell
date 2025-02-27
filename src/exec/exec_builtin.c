@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:58:54 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/25 16:21:17 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:32:01 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	execute_cd(t_cmd *cmd)
 	if (!target)
 	{
 		fprintf(stderr, "cd: variable d'environnement manquante\n");
+		g_exit_status = 1;
 		return ;
 	}
 	if (chdir(target) != 0)
@@ -84,6 +85,7 @@ void	execute_exit(t_cmd *cmd)
 			if (!ft_isdigit(cmd->args[1][i++]))
 			{
 				fprintf(stderr, "exit: argument numérique requis\n");
+				g_exit_status = 255;
 				return ;
 			}
 		}
@@ -106,7 +108,7 @@ void	execute_echo(t_cmd *cmd)
 	}
 	while (cmd->args[i])
 	{
-		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
+		ft_putstr_fd(remove_quotes(cmd->args[i]), STDOUT_FILENO);
 		if (cmd->args[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
@@ -122,5 +124,8 @@ void	execute_pwd(void)
 	if (getcwd(cwd, sizeof(cwd)))
 		printf("%s\n", cwd);
 	else
+	{
 		perror("pwd");
+		g_exit_status = 1;
+	}
 }

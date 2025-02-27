@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:42:11 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/10 15:15:26 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:07:33 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,44 @@ char    *extract_var_name(char *str)
         i++;
     name = ft_strndup(str, i);
     return (name);
+}
+
+char	**remove_heredoc_tokens(char **args)
+{
+	int		i;
+	int		j;
+	int		count;
+	char	**new_args;
+
+	/* Compte le nombre d'arguments sans les tokens heredoc */
+	i = 0;
+	count = 0;
+	while (args[i])
+	{
+		if (ft_strcmp(args[i], "<<") == 0)
+		{
+			i += 2;  /* Ignore le token et son délimiteur */
+			continue;
+		}
+		count++;
+		i++;
+	}
+	new_args = malloc(sizeof(char *) * (count + 1));
+	if (!new_args)
+		return (NULL);
+	/* Copie les arguments en ignorant les tokens heredoc */
+	i = 0;
+	j = 0;
+	while (args[i])
+	{
+		if (ft_strcmp(args[i], "<<") == 0)
+		{
+			i += 2;
+			continue;
+		}
+		new_args[j++] = ft_strdup(args[i]);
+		i++;
+	}
+	new_args[j] = NULL;
+	return (new_args);
 }

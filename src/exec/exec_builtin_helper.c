@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:34:04 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/19 16:33:29 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:39:38 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	execute_export(t_cmd *cmd)
 	if (!cmd->args[1])
 	{
 		fprintf(stderr, "export: utilisation incorrecte\n");
+		g_exit_status = 1;
 		return ;
 	}
 	while (cmd->args[i])

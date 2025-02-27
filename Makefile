@@ -43,13 +43,14 @@ SRCS			= signals.c\
 				  redirections.c\
 				  parsing/pipe.c\
 				  exec/exec_builtin.c\
-				  exec/heredoc.c\
 				  exec/exec_pipes.c\
 				  exec/exec.c\
 				  exec/exec_builtin_helper.c\
-				  exec/heredoc_helper.c\
 				  exec/env.c\
-				  exec/exec_external.c
+				  exec/exec_external.c\
+				  heredoc/heredoc.c\
+				  heredoc/heredoc_helper.c\
+				  heredoc/heredoc_test.c
 
 MAIN			= main.c
 

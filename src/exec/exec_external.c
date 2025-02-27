@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:45:41 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/26 15:07:39 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:30:29 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,49 +48,48 @@ char *get_path(const char *cmd_name, t_env *env)
 	return (NULL);
 }
 
-/*
-** Exécute une commande externe avec execve
-** @param cmd: structure de commande à exécuter
-** @param env: environnement
-*/
-void exec_external_cmd(t_cmd *cmd, t_env *env)
+void	exec_external_cmd(t_cmd *cmd, t_env *env)
 {
-    char *path_to_cmd;
-    pid_t pid;
-    int status;
+	pid_t	pid;
+	int		status;
 
-    if (cmd->args && cmd->args[0])
-    {
-        pid = fork();
-        if (pid == 0) // Processus enfant
-        {
-            path_to_cmd = get_path(cmd->args[0], env);
-            if (!path_to_cmd)
-            {
-                handle_error(cmd->args[0], "command not found", ERR_CMD_NOT_FOUND);
-                exit(127);
-            }
-            if (execve(path_to_cmd, cmd->args, env->env) == -1)
-            {
-                perror("execve");
-                free(path_to_cmd);
-                handle_error(cmd->args[0], "execution failed", ERR_EXEC_FAILED);
-                exit(126);
-            }
-            free(path_to_cmd);
-        }
-        else if (pid > 0) // Processus parent
-        {
-            waitpid(pid, &status, 0); // Attendre la fin du processus enfant
-        }
-        else
-        {
-            perror("fork");
-            exit(EXIT_FAILURE);
-        }
-    }
-    else
-    {
-        exit(0);
-    }
+	/* Assure-toi que cmd->path contient le chemin absolu du binaire */
+	if (!cmd->path)
+	{
+		cmd->path = get_cmd_path(cmd->args[0]);
+		if (!cmd->path)
+		{
+			ft_putstr_fd("minishell: command not found: ", 2);
+			ft_putendl_fd(cmd->args[0], 2);
+			g_exit_status = 127;  // Code classique pour commande introuvable
+			env->exit_status = g_exit_status;
+			return ;
+		}
+	}
+	pid = fork();
+	if (pid == 0)
+	{
+		/* Redirection de stdin si heredoc est configuré */
+		if (cmd->input_fd != STDIN_FILENO)
+		{
+			dup2(cmd->input_fd, STDIN_FILENO);
+			close(cmd->input_fd);
+		}
+		execve(cmd->path, cmd->args, env->env);
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid > 0)
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else
+			g_exit_status = 1;  // En cas d'erreur
+		env->exit_status = g_exit_status;
+	}
+	else
+	{
+		perror("fork");
+	}
 }

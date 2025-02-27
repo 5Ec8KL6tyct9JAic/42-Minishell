@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:31:51 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/26 15:34:21 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:59:27 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void init_cmd(t_cmd *cmd, char *input, t_env *env)
         cmd->is_builtin = is_builtin(cmd->args[0]);
     else
         cmd->is_builtin = 0;
+    init_heredoc(cmd);
 }
 
 int	is_builtin(char *cmd)
