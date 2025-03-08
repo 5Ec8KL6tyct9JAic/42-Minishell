@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/27 14:55:24 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/08 18:29:24 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,28 @@ char    *get_cmd_path(char *cmd)
     return (NULL);
 }
 
-char*   remove_quotes(char* str)
+char* remove_quotes(char* str)
 {
-    int len;
+    int i = 0;
+    int j = 0;
     
-    len = ft_strlen(str);
-    if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"') || (str
-        [0] == '\'' && str[len - 1] == '\'')))
+    while (str[i])
     {
-        str[len - 1] = '\0';
-        return (str + 1);
+        if (str[i] == '"' || str[i] == '\'')
+        {
+            char quote = str[i];
+            i++;
+            while (str[i] && str[i] != quote)
+                str[j++] = str[i++];
+                
+            if (str[i])
+                i++;
+        }
+        else
+        {
+            str[j++] = str[i++];
+        }
     }
-    
-    return (str);
+    str[j] = '\0';
+    return str;
 }

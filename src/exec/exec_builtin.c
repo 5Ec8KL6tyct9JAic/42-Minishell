@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:58:54 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/27 17:32:01 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/08 17:09:33 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,14 @@ void	execute_echo(t_cmd *cmd)
 {
 	int	newlin;
 	int	i;
-
+/*
+	i = 0;
+	while (cmd->args[i])
+	{
+		printf("%s\n", cmd->args[i]);
+		i++;
+	}
+		printf("-----------------\n");*/
 	i = 1;
 	newlin = 1;
 	if (cmd->args[i] && ft_strcmp(cmd->args[i], "-n") == 0)

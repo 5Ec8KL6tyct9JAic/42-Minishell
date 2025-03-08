@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:40:00 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/26 15:39:48 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/08 18:31:44 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,12 +185,12 @@ static void add_token(t_cmd *cmd, char *token)
 
 void parse_command(const char *input, t_cmd *cmd)
 {
-    int i;
+    int i = 0;
     int start;
     int len;
     char *token;
+    char *temp;
 
-    i = 0;
     if (!cmd->args)
     {
         cmd->args = malloc(sizeof(char *));
@@ -203,13 +203,12 @@ void parse_command(const char *input, t_cmd *cmd)
         while (input[i] && input[i] == ' ')
             i++;
         if (!input[i])
-            break ;
+            break;
         start = i;
         if (input[i] == '|' || input[i] == '<' || input[i] == '>')
         {
             len = 1;
-            if ((input[i] == '<' && input[i + 1] == '<') || (input
-                [i] == '>' && input[i + 1] == '>'))
+            if ((input[i] == '<' && input[i + 1] == '<') || (input[i] == '>' && input[i + 1] == '>'))
                 len++;
             token = ft_substr(input, i, len);
             if (!token)
@@ -217,31 +216,37 @@ void parse_command(const char *input, t_cmd *cmd)
             add_token(cmd, token);
             i += len;
         }
-        else if (input[i] == '\'' || input[i] == '"')
-        {
-            char quote = input[i];
-            i++;
-            start = i;
-            while (input[i] && input[i] != quote)
-                i++;
-            len = i - start;
-            token = ft_substr(input, start - 1, len + 2);
-            if (!token)
-                return;
-            add_token(cmd, token);
-            if (input[i] == quote)
-                i++;
-        }
         else
         {
-            while (input[i] && input[i] != ' ' &&
-                input[i] != '|' && input[i] != '<' && input[i] != '>' &&
-                input[i] != '\'' && input[i] != '"')
-                i++;
+            while (input[i] && input[i] != ' ' && 
+                   input[i] != '|' && input[i] != '<' && input[i] != '>')
+            {
+                if (input[i] == '\'' || input[i] == '"')
+                {
+                    char quote = input[i];
+                    i++;
+                    
+                    while (input[i] && input[i] != quote)
+                        i++;
+                        
+                    if (input[i] == quote)
+                        i++;
+                }
+                else
+                {
+                    i++;
+                }
+            }
             len = i - start;
             token = ft_substr(input, start, len);
             if (!token)
-                return ;
+                return;
+            temp = remove_quotes(token);
+            if (temp != token)
+            {
+                free(token);
+                token = temp;
+            }
             add_token(cmd, token);
         }
     }
