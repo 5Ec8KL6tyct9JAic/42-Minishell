@@ -36,6 +36,9 @@ SRCS			= signals.c\
 				  utils.c\
 				  error_handling.c\
 				  init/parse_command.c\
+				  init/env_handling.c\
+				  init/quote_handling.c\
+				  init/token_utils.c\
 				  init/env_utils.c\
 				  init/ft_realloc.c\
 				  init/init.c\

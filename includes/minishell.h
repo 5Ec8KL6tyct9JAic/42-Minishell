@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/27 17:48:35 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/08 18:54:48 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,16 @@ int			is_quote(char input);
 
 // Prototypes pour parse_command.c
 void		parse_command(const char *input, t_cmd *cmd);
-void		handle_env_var(const char **input, char **args, int *i, t_env *env);
-void		handle_quotes(char *input, t_cmd *cmd, int i);
+
+// Prototypes pour token_utils.c
+void		add_token(t_cmd *cmd, char *token);
+char		*remove_quotes(char *str);
+
+// Prototypes pour quote_handling.c
+void		handle_single_quotes(const char **input, char **args, int *i);
+void		handle_quoted_text(const char **input, char **args, int *i, 
+							t_env *env, char quote_type);
 char		*handle_double_quotes_content(char *input, t_env *env);
-void 		handle_single_quotes(const char **input, char **args, int *i);
-void 		handle_flags_and_args(const char **input, char **args, int *i, int *in_arg);
 
 // Prototypes pour env_utils.c
 char		*get_env_var(t_env *env, const char *var_name);
@@ -112,6 +117,11 @@ int			handle_existing_var(t_env *env, const char *key, char *new_var);
 int			set_env_var(t_env *env, const char *key, const char *value);
 int			unset_env_var(t_env *env, const char *key);
 int			update_env_var(t_env *env, const char *key, char *new_var);
+
+// prototypes pour env_handling.c
+void		handle_env_var(const char **input, char **args, int *i, t_env *env);
+void		handle_double_quotes(const char **input, char **args, int *i, t_env *env);
+void		handle_quotes(char *input, t_cmd *cmd, int i);
 
 // Prototypes pour exec.c
 void		wait_for_child(pid_t pid);

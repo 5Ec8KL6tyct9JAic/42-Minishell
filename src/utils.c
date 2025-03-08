@@ -6,7 +6,7 @@
 /*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:24:55 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/03/08 18:29:24 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/03/08 18:55:47 by davvaler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,30 +90,4 @@ char    *get_cmd_path(char *cmd)
     }
     free_args(paths);
     return (NULL);
-}
-
-char* remove_quotes(char* str)
-{
-    int i = 0;
-    int j = 0;
-    
-    while (str[i])
-    {
-        if (str[i] == '"' || str[i] == '\'')
-        {
-            char quote = str[i];
-            i++;
-            while (str[i] && str[i] != quote)
-                str[j++] = str[i++];
-                
-            if (str[i])
-                i++;
-        }
-        else
-        {
-            str[j++] = str[i++];
-        }
-    }
-    str[j] = '\0';
-    return str;
 }
