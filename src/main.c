@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:42:56 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/27 17:49:08 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:00:49 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static	void	execute_command_line(t_cmd *cmd, t_env *env)
 		piped_cmds = split_piped_commands(cmd->args);
 		if (piped_cmds)
 		{
-			execute_pipe_commands(piped_cmds);
+			execute_pipe_commands(piped_cmds, env);
 			free_cmds(piped_cmds);
 		}
 	}

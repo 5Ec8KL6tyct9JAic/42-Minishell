@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:42:59 by davvaler          #+#    #+#             */
-/*   Updated: 2025/02/10 14:43:01 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:02:45 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** @param prev_fd: descripteur de fichier précédent
 ** @param fd: tableau des descripteurs de fichier du pipe actuel
 */
-static void	child_process(char ***cmds, int i, int prev_fd, int fd[2])
+static void	child_process(char ***cmds, int i, int prev_fd, int fd[2], t_env *env)
 {
 	t_cmd	*cmd;
 
@@ -35,6 +35,7 @@ static void	child_process(char ***cmds, int i, int prev_fd, int fd[2])
 	cmd->input_fd = -1;
 	cmd->output_fd = -1;
 	cmd->heredoc = NULL;
+	cmd->env = env;
 
 	if (i > 0)
 	{
@@ -75,7 +76,7 @@ static void	parent_process(pid_t pid, int *prev_fd, int fd[2], int has_next)
 ** Exécute une série de commandes reliées par des pipes
 ** @param cmds: tableau des commandes à exécuter
 */
-void	execute_pipe_commands(char ***cmds)
+void	execute_pipe_commands(char ***cmds, t_env *env)
 {
 	int		i;
 	int		fd[2];
@@ -92,7 +93,7 @@ void	execute_pipe_commands(char ***cmds)
 		if (pid == -1)
 			return (print_error("fork", "failed to create process"));
 		if (pid == 0)
-			child_process(cmds, i, prev_fd, fd);
+			child_process(cmds, i, prev_fd, fd, env);
 		else
 			parent_process(pid, &prev_fd, fd, cmds[i + 1] != NULL);
 		i++;

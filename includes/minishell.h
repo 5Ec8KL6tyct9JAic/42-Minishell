@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/03/08 18:54:48 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:01:45 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ char		**advanced_split(const char *input);
 void		first_pipe(char **av, int *p_fd, char **env);
 void		second_pipe(char **av, int *p_fd, char **env);
 void		close_pipes(int *p_fd);
-void		execute_pipe_commands(char ***cmds);
+void		execute_pipe_commands(char ***cmds, t_env *env);
 
 // Prototypes pour signals.c
 void		sigint_handler(int sig);
