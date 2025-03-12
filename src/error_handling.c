@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:16:30 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/19 18:07:33 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:49:53 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ void	print_error(char *cmd, char *msg)
 	write(2, "minishell: ", 11);
 	if (cmd)
 	{
+        g_exit_status = 127;
 		write(2, cmd, ft_strlen(cmd));
 		write(2, ": ", 2);
 	}
+    g_exit_status = 127;
 	write(2, msg, ft_strlen(msg));
 	write(2, "\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:42:59 by davvaler          #+#    #+#             */
-/*   Updated: 2025/03/11 16:02:45 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:48:35 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ static void	child_process(char ***cmds, int i, int prev_fd, int fd[2], t_env *en
 	// Create and initialize t_cmd structure
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
+	{
+		env->exit_status = 1;
 		exit(1);
+	}
 	cmd->args = cmds[i];
 	cmd->input_redirection = NULL;
 	cmd->output_redirection = NULL;
