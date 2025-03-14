@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:58:54 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/03/08 17:09:33 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:14:53 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,87 +46,136 @@ void	execute_builtin(t_cmd *cmd, t_env *env)
 ** Change le répertoire courant
 ** @param cmd: structure de commande contenant le chemin
 */
-void	execute_cd(t_cmd *cmd)
+void execute_cd(t_cmd *cmd)
 {
-	char	*target;
+    char *target;
+    char cwd[PATH_MAX];
 
-	target = cmd->args[1];
-	if (!target)
-		target = getenv("HOME");
-	else if (ft_strcmp(target, "-") == 0)
-		target = getenv("OLDPWD");
-	if (!target)
-	{
-		fprintf(stderr, "cd: variable d'environnement manquante\n");
-		g_exit_status = 1;
-		return ;
-	}
-	if (chdir(target) != 0)
-		perror("cd");
-	else
-		setenv("OLDPWD", getenv("PWD"), 1);
+    if (cmd->args[1] && cmd->args[2])  // Trop d'arguments
+    {
+        fprintf(stderr, "cd: too many arguments\n");
+        g_exit_status = 1;
+        return;
+    }
+
+    target = cmd->args[1];
+    if (!target)
+        target = getenv("HOME");
+    else if (strcmp(target, "-") == 0)
+        target = getenv("OLDPWD");
+
+    if (!target)
+    {
+        fprintf(stderr, "cd: environment variable not set\n");
+        g_exit_status = 1;
+        return;
+    }
+
+    if (chdir(target) != 0)  // Erreur de changement de répertoire
+    {
+        fprintf(stderr, "cd: %s: %s\n", target, strerror(errno));
+        g_exit_status = 1;
+        return;
+    }
+
+    // Mise à jour des variables d'environnement
+    if (getcwd(cwd, sizeof(cwd)))
+    {
+        setenv("OLDPWD", getenv("PWD"), 1);
+        setenv("PWD", cwd, 1);
+    }
+    else
+    {
+        fprintf(stderr, "cd: error retrieving current directory: %s\n", strerror(errno));
+        g_exit_status = 1;
+    }
 }
 
-/*
-** Quitte le shell avec le code de sortie spécifié
-** @param cmd: structure de commande contenant le code de sortie
-*/
-void	execute_exit(t_cmd *cmd)
+/* is_n_flag:
+ * Vérifie si une option est un flag -n valide.
+ */
+bool is_n_flag(const char *arg)
 {
-	int	exit_code;
-	int	i;
+    int i;
 
-	exit_code = 0;
-	i = 0;
-	if (cmd->args[1])
-	{
-		while (cmd->args[1][i])
-		{
-			if (!ft_isdigit(cmd->args[1][i++]))
-			{
-				fprintf(stderr, "exit: argument numérique requis\n");
-				g_exit_status = 255;
-				return ;
-			}
+    if (!arg || arg[0] != '-')
+        return false;
+    i = 1;
+    while (arg[i] && arg[i] == 'n')
+        i++;
+    return (arg[i] == '\0');  // Vérifie que la chaîne est uniquement composée de '-n...n'
+}
+
+
+void execute_exit(t_cmd *cmd)
+{
+    long exit_code;
+    char *endptr;
+
+    if (cmd->args[1])
+    {
+        // Vérifie si l'argument est un nombre valide
+        exit_code = strtol(cmd->args[1], &endptr, 10);
+        if (*endptr != '\0' || errno == ERANGE)
+        {
+            fprintf(stderr, "exit: %s: numeric argument required\n", cmd->args[1]);
+            exit(2);
+        }
+        if (cmd->args[2])  // Trop d'arguments
+        {
+            fprintf(stderr, "exit: too many arguments\n");
+            g_exit_status = 1;
+            return;
+        }
+        exit_code = (unsigned char)exit_code;  // Applique modulo 256
+    }
+    else
+        exit_code = g_exit_status;
+
+    exit(exit_code);
+}
+
+void execute_echo(t_cmd *cmd)
+{
+    int i = 1;
+    int newlin = 1;
+
+    // Vérifie toutes les options -n successives
+    while (cmd->args[i] && is_n_flag(cmd->args[i]))
+    {
+        newlin = 0;
+        i++;
+    }
+
+    // Affiche les arguments restants
+    while (cmd->args[i])
+    {
+        char *processed_arg;
+
+        if (cmd->args[i][0] == '\'')  // Si c'est une chaîne entre guillemets simples
+            processed_arg = remove_quotes(cmd->args[i]);
+        else  // Sinon, il faut traiter les variables d'environnement
+        {
+			expand_env_vars(cmd);
+			processed_arg = cmd->args[i];
 		}
-		exit_code = ft_atoi(cmd->args[1]) % 256;
-	}
-	exit(exit_code);
+
+        ft_putstr_fd(processed_arg, STDOUT_FILENO);
+        
+        if (cmd->args[i + 1])
+            ft_putchar_fd(' ', STDOUT_FILENO);
+
+        i++;
+    }
+
+    if (newlin)
+        ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-void	execute_echo(t_cmd *cmd)
-{
-	int	newlin;
-	int	i;
-/*
-	i = 0;
-	while (cmd->args[i])
-	{
-		printf("%s\n", cmd->args[i]);
-		i++;
-	}
-		printf("-----------------\n");*/
-	i = 1;
-	newlin = 1;
-	if (cmd->args[i] && ft_strcmp(cmd->args[i], "-n") == 0)
-	{
-		newlin = 0;
-		i++;
-	}
-	while (cmd->args[i])
-	{
-		ft_putstr_fd(remove_quotes(cmd->args[i]), STDOUT_FILENO);
-		if (cmd->args[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		i++;
-	}
-	if (newlin)
-		ft_putchar_fd('\n', STDOUT_FILENO);
-}
 
 void	execute_pwd(void)
 {
-	char	cwd[1024];
+	char	cwd[PATH_MAX];
 
 	if (getcwd(cwd, sizeof(cwd)))
 		printf("%s\n", cwd);

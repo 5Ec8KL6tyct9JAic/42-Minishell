@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:31:51 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/27 15:59:27 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:50:48 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void init_cmd(t_cmd *cmd, char *input, t_env *env)
     parse_command((const char *)input, cmd);
     if (!cmd->args || !cmd->args[0])
         return;
-    expand_env_vars(cmd);
+    if (!ft_strcmp(cmd->args[0], "echo\0"))  
+        expand_env_vars(cmd);
     if (cmd->args && cmd->args[0])
         cmd->is_builtin = is_builtin(cmd->args[0]);
     else
