@@ -6,9 +6,10 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:53:36 by davvaler          #+#    #+#             */
-/*   Updated: 2025/03/14 13:49:39 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:24:13 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -32,6 +33,10 @@
 # include <readline/history.h>
 # include <curses.h>
 # include <term.h>
+
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+# endif
 
 # define DEBUG_MODE 0
 # define ERR_CMD_NOT_FOUND        0
@@ -125,20 +130,20 @@ void		handle_quotes(char *input, t_cmd *cmd, int i);
 
 // Prototypes pour exec.c
 void		wait_for_child(pid_t pid);
-int			execute_command(char **args);
+int			execute_command(t_cmd *cmd);
 char 		*get_path(const char *cmd_name, t_env *env);
 void    	exec_external_cmd(t_cmd *cmd, t_env *env);
 int			has_redirection(char **args);
 
 // Prototypes pour exec_builtin.c
 void		execute_builtin(t_cmd *cmd, t_env *env);
-void		execute_cd(t_cmd *cmd);
-void		execute_exit(t_cmd *cmd);
-void		execute_echo(t_cmd *cmd);
-void		execute_pwd(void);
-void		execute_env(t_env *env);
-void		execute_export(t_cmd *cmd);
-void		execute_unset(t_cmd *cmd);
+void		cd_bulltin(t_cmd *cmd);
+void		exit_bulltin(t_cmd *cmd);
+void		echo_bulltin(t_cmd *cmd);
+void		pwd_bulltin(t_cmd *cmd);
+void		env_bulltin(t_env *env);
+void		export_bulltin(t_cmd *cmd, t_env *env);
+void		unset_bulltin(t_cmd *cmd);
 
 // Prototypes pour heredoc.c
 int			is_delimiter_quoted(char *delimiter, int *quote_type);
@@ -183,6 +188,7 @@ int			sig_save_handler(int new);
 int			ft_isspace(int c);
 char 		**ft_realloc(char **args, int size);
 char*   	remove_quotes(char* str);
+int 		ft_is_char_dig(char *str);
 
 // Add with the other exec prototypes
 void		execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next);
@@ -199,6 +205,6 @@ void		print_error(char *context, char *message);
 int			handle_token_redirections(t_cmd *cmd, char **args, int i);
 
 // Prototypes pour redirections
-int     parse_redirections_exec(char **args, int *input_fd, int *output_fd);
+int     parse_redirections_exec(int *input_fd, int *output_fd, t_cmd *cmd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handling.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:30:00 by davvaler          #+#    #+#             */
-/*   Updated: 2025/03/08 18:42:19 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:56:27 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ void	handle_double_quotes(const char **input, char **args, int *i, t_env *env)
 	{
 		if (**input == '$' && (*input)[1] && 
 			(ft_isalnum((*input)[1]) || (*input)[1] == '_'))
-		{
-			/* Expansion code would go here */
-		}
 		(*input)++;
 	}
 	content = ft_substr(start, 0, *input - start);

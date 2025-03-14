@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:42:11 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/27 16:07:33 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:54:59 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	heredoc_signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
-		exit(130);
+		exit_with_error(NULL, "heredoc ne marche pas", 130);
 	}
 }
 
@@ -51,7 +51,7 @@ int	execute_heredoc(t_cmd *cmd, char *delimiter, t_env *env)
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status) || WEXITSTATUS(status) == 130)
 	{
-		// g_exit_status = 130;
+		g_exit_status = 130;
 		return (1);
 	}
 	cmd->input_fd = hdoc.pipe_fd[0];

@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:45:41 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/03/11 16:03:02 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:47:39 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		{
 			ft_putstr_fd("minishell: command not found: ", 2);
 			ft_putendl_fd(cmd->args[0], 2);
-			g_exit_status = 127;  // Code classique pour commande introuvable
-			env->exit_status = g_exit_status;
+			cmd->env->exit_status = 127;
 			return ;
 		}
 	}
@@ -77,19 +76,20 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		}
 		execve(cmd->path, cmd->args, env->env);
 		perror("execve");
+		cmd->env->exit_status = 126;
 		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
+			cmd->env->exit_status = WEXITSTATUS(status);
 		else
-			g_exit_status = 1;  // En cas d'erreur
-		env->exit_status = g_exit_status;
+			cmd->env->exit_status = 1;
 	}
 	else
 	{
 		perror("fork");
+		cmd->env->exit_status = 1;
 	}
 }

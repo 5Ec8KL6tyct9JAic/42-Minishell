@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:36:18 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/02/27 16:07:53 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:56:14 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static int	read_heredoc_lines(t_heredoc *hdoc, char *clean_delim,
 		{
 			ft_putstr_fd("minishell: warning: here-document "
 				"delimited by end-of-file\n", 2);
+			env->exit_status = 1;
 			break ;
 		}
 		if (ft_strcmp(line, clean_delim) == 0)
@@ -98,7 +99,7 @@ static int	read_heredoc_lines(t_heredoc *hdoc, char *clean_delim,
 		free(line);
 		free(expanded_line);
 	}
-	return (0);
+	return (env->exit_status);
 }
 
 /*
@@ -115,7 +116,7 @@ int	handle_heredoc(t_heredoc *hdoc, t_env *env)
 
 	ret = 0;
 	if (pipe(hdoc->pipe_fd) == -1)
-		return (1);
+		return (env->exit_status = 1);
 	hdoc->content = ft_strdup("");
 	is_delimiter_quoted(hdoc->delimiter, &quote_type);
 	clean_delim = clean_delimiter(hdoc->delimiter);

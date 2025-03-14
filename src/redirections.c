@@ -6,13 +6,13 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:31:02 by davvaler          #+#    #+#             */
-/*   Updated: 2025/03/11 16:02:56 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:59:29 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	open_file(char *filename, char *mode)
+static int	open_file(char *filename, char *mode, t_cmd *cmd)
 {
 	if (ft_strcmp(mode, ">") == 0)
 		return (open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644));
@@ -20,44 +20,46 @@ static int	open_file(char *filename, char *mode)
 		return (open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644));
 	if (ft_strcmp(mode, "<") == 0)
 		return (open(filename, O_RDONLY));
+	cmd->env->exit_status = 1;
 	return (-1);
 }
 
-static int	handle_redirection(char **args, int i, int *in_fd, int *out_fd)
+static int	handle_redirection(int i, int *in_fd, int *out_fd, t_cmd *cmd)
 {
 	int	fd;
 
-	if (!args[i + 1])
+	if (!cmd->args[i + 1])
 		return (print_error("syntax", "missing file for redirection"), -1);
-	fd = open_file(args[i + 1], args[i]);
+	fd = open_file(cmd->args[i + 1], cmd->args[i], cmd);
 	if (fd == -1)
 	{
-		print_error("minishell", ft_strjoin(args[i + 1],
+		print_error("minishell", ft_strjoin(cmd->args[i + 1],
 				": failed to open file"));
+		cmd->env->exit_status = 1;
 		return (-1);
 	}
-	if (args[i][0] == '<')
+	if (cmd->args[i][0] == '<')
 		*in_fd = fd;
 	else
 		*out_fd = fd;
-	free(args[i]);
-	free(args[i + 1]);
-	args[i] = NULL;
-	args[i + 1] = NULL;
+	free(cmd->args[i]);
+	free(cmd->args[i + 1]);
+	cmd->args[i] = NULL;
+	cmd->args[i + 1] = NULL;
 	return (0);
 }
 
-int	parse_redirections_exec(char **args, int *input_fd, int *output_fd)
+int	parse_redirections_exec(int *input_fd, int *output_fd, t_cmd *cmd)
 {
 	int	i;
 
 	i = 0;
-	while (args[i])
+	while (cmd->args[i])
 	{
-		if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">>")
-			|| !ft_strcmp(args[i], "<"))
+		if (!ft_strcmp(cmd->args[i], ">") || !ft_strcmp(cmd->args[i], ">>")
+			|| !ft_strcmp(cmd->args[i], "<"))
 		{
-			if (handle_redirection(args, i, input_fd, output_fd) == -1)
+			if (handle_redirection(i, input_fd, output_fd, cmd) == -1)
 				return (-1);
 		}
 		i++;
@@ -100,7 +102,7 @@ void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 	pid_t	pid;
 
 	(void)has_next;
-	if (parse_redirections_exec(cmd->args, &input_fd, &output_fd) == -1)
+	if (parse_redirections_exec(&input_fd, &output_fd, cmd) == -1)
 		return ;
 	
 	// 2. Nettoyage des arguments (supprime les tokens redirection)
@@ -114,6 +116,7 @@ void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 	{
 		fprintf(stderr, "minishell: %s: command not found\n", args_clean[0]);
 		free(args_clean);
+		cmd->env->exit_status = 127;
 		exit(127);
 	}
 
@@ -141,6 +144,7 @@ void	execute_with_redirections(t_cmd *cmd, int prev_fd, int has_next)
 		// Exécute la commande avec execve
 		execve(cmd_path, args_clean, cmd->env->env);
 		perror("execve"); // Si execve échoue
+		cmd->env->exit_status = 127;
 		exit(127);
 	}
 

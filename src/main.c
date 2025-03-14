@@ -6,7 +6,7 @@
 /*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:42:56 by mmouaffa          #+#    #+#             */
-/*   Updated: 2025/03/11 16:00:49 by mmouaffa         ###   ########.fr       */
+/*   Updated: 2025/03/11 22:09:28 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ static int	shell_loop(t_env *env, t_cmd *cmd)
 			if (has_redirection(cmd->args))
 				execute_with_redirections(cmd, -1, 0);
 			else
-				execute_command_line(cmd, env);
+				execute_command_line(cmd, cmd->env);
 			free_args(cmd->args);
 		}
 	}

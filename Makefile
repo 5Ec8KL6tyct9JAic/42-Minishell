@@ -45,10 +45,16 @@ SRCS			= signals.c\
 				  parsing/command_parse.c\
 				  redirections.c\
 				  parsing/pipe.c\
-				  exec/exec_builtin.c\
+				  bulltins/exec_bulltin.c\
+				  bulltins/cd_bulltin.c\
+				  bulltins/echo_bulltin.c\
+				  bulltins/env_bulltin.c\
+				  bulltins/exit_bulltin.c\
+				  bulltins/export_bulltin.c\
+				  bulltins/pwd_bulltin.c\
+				  bulltins/unset_bulltin.c\
 				  exec/exec_pipes.c\
 				  exec/exec.c\
-				  exec/exec_builtin_helper.c\
 				  exec/env.c\
 				  exec/exec_external.c\
 				  heredoc/heredoc.c\
