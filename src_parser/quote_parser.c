@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davvaler <davvaler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmouaffa <mmouaffa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 22:33:02 by jerdos-s          #+#    #+#             */
-/*   Updated: 2025/04/22 16:40:39 by davvaler         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:55:58 by mmouaffa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,4 +133,3 @@ int	rem_quote(t_lexical *lst_head)
 	}
 	return (0);
 }
-

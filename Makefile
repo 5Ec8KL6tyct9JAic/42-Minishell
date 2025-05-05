@@ -43,7 +43,7 @@ HEADERS				= $(addprefix $(PATH_HEADER),$(HEADER))
 
 DEBUG				= 0
 DEBUGING			=  -g3 -fsanitize=address
-CFLAGS 				= -Wall -Wextra -Werror -O3 -I$(PATH_HEADER)
+CFLAGS 				= -Wall -Wextra -Werror -I$(PATH_HEADER)
 
 
 ifeq ($(DEBUG), 1)
